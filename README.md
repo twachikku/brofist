@@ -1,17 +1,13 @@
-BroFist Core staging tree 0.12.1
-===============================
+BroFist!!!
 
-`master:` [![Build Status](https://travis-ci.org/brofistcoin/brofist.svg?branch=master)](https://travis-ci.org/brofistcoin/brofist) `develop:` [![Build Status](https://travis-ci.org/brofistcoin/brofist.svg?branch=develop)](https://travis-ci.org/brofistcoin/brofist/branches)
-
-https://www.brofist.network
-
+BROFIST COIN - A COIN THAT YOU CAN MINE, RUN MASTERNODES AND SHOW TO YOUR MOM
 
 What is BroFist?
 ----------------
 
-BroFist (PEW) is an innovative cryptocurrency. A form of digital currency secured by cryptography and issued through a decentralized and advanced mining market. Based on Dash, it's an enhanced and further developed version, featuring the masternode technology with 50% Reward, near-instant and secure payments as well as anonymous transactions. BroFist has great potential for rapid growth and expansion. Based on a total Proof of Work and Masternode system, it is accesible to everyone, it ensures a fair and stable return of investment for the Graphics Processing Units (GPUs) miners and the Masternode holders.
+This is the one that’s really gonna take off. Trust me. I am the most trustworthy Youtuber on the platform and I’m telling you right here, right now, BroFistCoin is where it’s at. We’re gonna BROFIIIIIIIIIIIIIIST to the TOP! This is the cryptocurrency that’s really gonna make it. It’s gonna be great.
 
-Additional information, wallets, specifications & roadmap: https://bitcointalk.org/index.php?topic=2442185.0
+Additional information, wallets, specifications & roadmap: http://brofistcoin.su/
 
 
 License
