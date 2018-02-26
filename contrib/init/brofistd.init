@@ -1,0 +1,67 @@
+#!/bin/bash
+#
+#  brofistd The BroFist Core server.
+#
+#
+# chkconfig: 345 80 20
+# description: brofistd
+# processname: brofistd
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/brofistd, see below
+if [ -f /etc/sysconfig/brofistd ]; then
+        . /etc/sysconfig/brofistd
+fi
+
+RETVAL=0
+
+prog=brofistd
+# you can override the lockfile via BITCOIND_LOCKFILE in /etc/sysconfig/brofistd
+lockfile=${BITCOIND_LOCKFILE-/var/lock/subsys/brofistd}
+
+# brofistd defaults to /usr/bin/brofistd, override with BITCOIND_BIN
+brofistd=${BITCOIND_BIN-/usr/bin/brofistd}
+
+# brofistd opts default to -disablewallet, override with BITCOIND_OPTS
+brofistd_opts=${BITCOIND_OPTS--disablewallet}
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon $DAEMONOPTS $brofistd $brofistd_opts
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac

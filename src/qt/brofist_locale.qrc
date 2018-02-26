@@ -1,0 +1,20 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/translations">
+        <file alias="bg">locale/brofist_bg.qm</file>
+        <file alias="de">locale/brofist_de.qm</file>
+        <file alias="en">locale/brofist_en.qm</file>
+        <file alias="es">locale/brofist_es.qm</file>
+        <file alias="fi">locale/brofist_fi.qm</file>
+        <file alias="fr">locale/brofist_fr.qm</file>
+        <file alias="it">locale/brofist_it.qm</file>
+        <file alias="ja">locale/brofist_ja.qm</file>
+        <file alias="pl">locale/brofist_pl.qm</file>
+        <file alias="pt">locale/brofist_pt.qm</file>
+        <file alias="ru">locale/brofist_ru.qm</file>
+        <file alias="sk">locale/brofist_sk.qm</file>
+        <file alias="sv">locale/brofist_sv.qm</file>
+        <file alias="vi">locale/brofist_vi.qm</file>
+        <file alias="zh_CN">locale/brofist_zh_CN.qm</file>
+        <file alias="zh_TW">locale/brofist_zh_TW.qm</file>
+    </qresource>
+</RCC>

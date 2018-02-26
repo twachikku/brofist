@@ -1,0 +1,6 @@
+usr/local/bin/brofist-qt usr/bin
+share/pixmaps/brofist32.xpm usr/share/pixmaps
+share/pixmaps/brofist16.xpm usr/share/pixmaps
+share/pixmaps/brofist128.png usr/share/pixmaps
+debian/brofist-qt.desktop usr/share/applications
+debian/brofist-qt.protocol usr/share/kde4/services/

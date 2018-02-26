@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=BroFist
+Comment=BroFist P2P Cryptocurrency
+Exec=brofist-qt %u
+Terminal=false
+Type=Application
+Icon=brofist128
+MimeType=x-scheme-handler/brofist;
+Categories=Office;Finance;
+Name[en_US]=brofist-qt.desktop
