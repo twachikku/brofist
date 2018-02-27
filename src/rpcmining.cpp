@@ -464,7 +464,7 @@ UniValue getblocktemplate(const UniValue& params, bool fHelp)
     if (IsInitialBlockDownload())
         throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "BroFist Core is downloading blocks...");
 
-    if (chainActive.Tip()->nHeight+1 > 400)
+    if (chainActive.Tip()->nHeight+1 > 1000)
     if (!masternodeSync.IsSynced())
         throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "BroFist Core is syncing with network...");
 
