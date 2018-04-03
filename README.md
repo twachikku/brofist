@@ -14,11 +14,11 @@ Therefore, I make this fork to look after it, and make it to be the community st
 
 Downloads
 ----------------
-* Windows 64 Wallet
+* [Windows 64 Wallet](https://github.com/modcrypto/brofist/releases/download/1.0/brofist64-qt.zip)
 * Windows 32 Wallet
-* Linux Wallet
+* [Linux Wallet](https://github.com/modcrypto/brofist/releases/download/1.0/brofist_ubuntu.16.04.tar.gz)
 * MacOS Wallet
-* blockchain.zip
+* [blockchain.zip](https://github.com/modcrypto/brofist/releases/download/1.0/brofist_blockchain.zip)
 
 Master Node Guide
 ----------------
