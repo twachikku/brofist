@@ -110,7 +110,8 @@ public:
         pchMessageStart[3] = 0xd4;
         vAlertPubKey = ParseHex("045f6f7880946beb809b89610a5c1fa3a25604e6a1fe0642576390f3c3be43f7d175cd3e62cbe90fac8868a3ba25ebcefb382f3ddaf0de20ca3a2697ed21b75110");
         nDefaultPort = 11113;
-        nMaxTipAge = 4.8 * 60 * 60; // ~144 blocks behind -> 2 x fork detection time, was 24 * 60 * 60 in bitcoin
+        //nMaxTipAge = 4.8 * 60 * 60; // ~144 blocks behind -> 2 x fork detection time, was 24 * 60 * 60 in bitcoin
+        nMaxTipAge = 1.0 * 60 * 60; // fixed error
         nPruneAfterHeight = 100000;
 
         genesis = CreateGenesisBlock(1519723854, 1354741, 0x1e0ffff0, 1, 50 * COIN);
@@ -118,10 +119,10 @@ public:
         assert(consensus.hashGenesisBlock == uint256S("0x00000a3c139dd60e6da641c558b57aa67e92ae76c0dbf18c16070f98f6dfb9b0"));
         assert(genesis.hashMerkleRoot == uint256S("0x5ea94ac45184326a87a17483e20d0322ffaffc9faff17c8eae8e534a5839f9da"));
 
-        vSeeds.push_back(CDNSSeedData("brofist.network", "seed1.brofist.network"));
-        vSeeds.push_back(CDNSSeedData("brofist.network", "seed2.brofist.network"));
-        vSeeds.push_back(CDNSSeedData("brofist.network", "seed3.brofist.network"));
-        vSeeds.push_back(CDNSSeedData("brofist.network", "seed4.brofist.network"));
+        vSeeds.push_back(CDNSSeedData("brofist.network", "80.64.131.245"));
+        vSeeds.push_back(CDNSSeedData("brofist.network", "80.64.131.246"));
+        vSeeds.push_back(CDNSSeedData("brofist.network", "176.57.208.60"));
+        vSeeds.push_back(CDNSSeedData("brofist.network", "176.57.208.151"));
 
         // BroFist addresses start with 'P'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,55);

@@ -14,7 +14,7 @@ for example, when specifying the the path of the dependency:
 Here BDB_PREFIX must absolute path - it is defined using $(pwd) which ensures
 the usage of the absolute path.
 
-To Build
+To Build : brofistd, brofist-cli and brofist-tx
 ---------------------
 
 ```bash
@@ -25,7 +25,13 @@ make install # optional
 ```
 
 This will build brofist-qt as well if the dependencies are met.
-
+---------------------
+ cd depends
+ make HOST=x86_64-pc-linux-gnu -j4
+ cd ..
+ ./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu --disable-tests --disable-bench --enable-static --disable-shared  
+ make
+	
 Dependencies
 ---------------------
 
