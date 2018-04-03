@@ -1,13 +1,28 @@
-BroFist!!!
+![Brofist Logo](/src/qt/res/icons/bitcoin.png)
 
-BROFIST COIN - A COIN THAT YOU CAN MINE, RUN MASTERNODES AND SHOW TO YOUR MOM
+BROFIST COIN - A COMMUNITY RE-DESIGNED COIN 
 
 What is BroFist?
 ----------------
 
-This is the one that’s really gonna take off. Trust me. I am the most trustworthy Youtuber on the platform and I’m telling you right here, right now, BroFistCoin is where it’s at. We’re gonna BROFIIIIIIIIIIIIIIST to the TOP! This is the cryptocurrency that’s really gonna make it. It’s gonna be great.
+This is just another one coin that the developer had gone away, and left it to be a shit coin.
+Therefore, I make this fork to look after it, and make it to be the community stable and reliable coin.
 
-Additional information, wallets, specifications & roadmap: http://brofistcoin.su/
+Website: http://brofist-coin.firebaseapp.com  (comming soon)
+Exchange: https://graviex.net/markets/pewbtc
+
+
+Wallets
+----------------
+* Windows 64
+* Windows 32
+* Linux 
+* MacOS
+
+Master Node Guide
+----------------
+Coming soon
+
 
 
 License
@@ -52,4 +67,3 @@ Changes should be tested by somebody other than the developer who wrote the
 code. This is especially important for large or high-risk changes. It is useful
 to add a test plan to the pull request description if testing the changes is
 not straightforward.
-
