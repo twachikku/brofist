@@ -18,7 +18,7 @@ Downloads
 * Windows 32 Wallet
 * [Linux Wallet](https://github.com/modcrypto/brofist/releases/download/1.0/brofist_ubuntu.16.04.tar.gz)
 * MacOS Wallet
-* [blockchain.zip](https://github.com/modcrypto/brofist/releases/download/1.0/brofist_blockchain.zip)
+* [blockchain.zip](https://github.com/modcrypto/brofist/releases/download/1.0/brofist_blockchain_24176.zip) 1 - 24176 blocks
 
 ![Sample Wallet Screen](/doc/brofist_samplescr.png)
 
