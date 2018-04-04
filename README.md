@@ -18,9 +18,31 @@ Downloads
 * Windows 32 Wallet
 * [Linux Wallet](https://github.com/modcrypto/brofist/releases/download/1.0/brofist_ubuntu.16.04.tar.gz)
 * MacOS Wallet
-* [blockchain.zip](https://github.com/modcrypto/brofist/releases/download/1.0/brofist_blockchain_24176.zip) 1 - 24176 blocks
+* [Blockchain](https://github.com/modcrypto/brofist/releases/download/1.0/brofist_blockchain_24176.zip) 1 - 24176 blocks
 
-![Sample Wallet Screen](/doc/brofist_samplescr.png)
+How to Repair Your Masternode
+------------------------
+1. Close your BroFist wallet.
+2. Delete everything from the folder <USER_FOLDER>\AppData\Roaming\BroFistCore (for windows), 
+   EXCEPT wallet.dat, brofist.conf, masternode.conf and backup folder.
+
+![Sample Screen](/doc/brofist_doc/step1.png)
+
+Be extremely careful not to delete wallet.dat, or you may loose all your coins.
+
+3. Then you need to add nodes that are 100% sure on the right chain to your brofist.conf file :
+Code:
+
+maxconnections=80
+addnode=80.64.131.245
+addnode=80.64.131.246
+addnode=176.57.208.60
+addnode=176.57.208.151
+addnode=5.23.52.56
+addnode=5.23.54.111
+
+Please don't make maxconnections number higher than 125, or you might desync again.
+4. Open your BroFist wallet again.
 
 Master Node Guide
 ----------------
