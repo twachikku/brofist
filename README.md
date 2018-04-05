@@ -8,6 +8,7 @@ What is BroFist?
 This is just another one coin that the developer had gone away, and left it to be a shit coin.
 Therefore, I make this fork to look after it, and make it to be the community stable and reliable coin.
 
+* Bitcointalk ANN : https://bitcointalk.org/index.php?topic=3025770.80 
 * Website: http://brofist-coin.firebaseapp.com  (comming soon)
 * Exchange: https://graviex.net/markets/pewbtc
 * Discord: https://discord.gg/p2rsNEb
