@@ -34,12 +34,12 @@ Be extremely careful not to delete wallet.dat, or you may loose all your coins.
 Code:
 ```
 maxconnections=80
-addnode=80.64.131.245
-addnode=80.64.131.246
-addnode=176.57.208.60
-addnode=176.57.208.151
+addnode=80.64.131.230
 addnode=5.23.52.56
 addnode=5.23.54.111
+addnode=176.57.208.60
+addnode=176.57.208.151
+addnode=188.225.86.206
 ```
 Please don't make maxconnections number higher than 125, or you might desync again.
 4. Open your BroFist wallet again.
