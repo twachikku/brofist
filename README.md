@@ -8,6 +8,16 @@ What is BroFist?
 This is just another one coin that the developer had gone away, and left it to be a shit coin.
 Therefore, I make this fork to look after it, and make it to be the community stable and reliable coin.
 
+- Maximum Supply: 31,000,000 coins
+- Algorithm: NeoScrypt
+- Type: PoW + MasterNode
+- Coin name: BroFist Coin
+- Coin abbreviation: PEW
+- Block Time Average: 120 sec
+- Block Reward: 0-150 - 1 PEW, 150-250 - 3 PEW, 250+ - 12 PEW. 
+- Block Reward Distribution: 6 PEW to Masternodes, 6 PEW to Miners
+- Premine: 1% (300,000 PEW with Old Dev)
+
 * Bitcointalk ANN : https://bitcointalk.org/index.php?topic=3025770.80 
 * Website: http://brofist-coin.firebaseapp.com  (comming soon)
 * Exchange: https://graviex.net/markets/pewbtc
