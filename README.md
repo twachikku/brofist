@@ -66,9 +66,9 @@ addnode=81.5.117.163
 addnode=104.168.87.183
 addnode=104.197.130.51
 
-
 ```
-Please don't make maxconnections number higher than 125, or you might desync again.
+Please don't make maxconnections number higher than 30, or you might desync again.
+
 4. Open your BroFist wallet again.
 
 Master Node Guide
