@@ -42,39 +42,50 @@ How to Repair Your Masternode
 Be extremely careful not to delete wallet.dat, or you may loose all your coins.
 
 3. Then you need to add nodes that are 100% sure on the right chain to your brofist.conf file :
-Code:
-```
+Code: Last update 09-04-2018 
+```ini
 maxconnections=30
 addnode=159.203.186.24
 addnode=207.148.119.112
-addnode=198.13.62.66
-addnode=213.110.122.225
 addnode=78.30.222.136
+addnode=198.13.62.66
 addnode=173.249.41.184
 addnode=80.64.131.248
 addnode=80.64.131.247
-addnode=80.64.131.244
-addnode=80.64.131.245
 addnode=80.64.131.246
-addnode=173.249.23.236
+addnode=80.64.131.245
+addnode=80.64.131.244
 addnode=80.64.131.242
 addnode=80.64.131.241
-addnode=13.59.190.151
-addnode=35.203.57.179
-addnode=18.222.46.55
 addnode=35.199.63.148
 addnode=185.117.153.77
 addnode=185.5.251.7
 addnode=80.64.131.243
 addnode=185.160.60.164
-addnode=35.227.57.57
 addnode=18.217.196.46
 addnode=35.197.95.164
+addnode=35.227.57.57
 addnode=80.64.131.231
 addnode=80.64.131.249
-addnode=81.5.117.163
 addnode=104.168.87.183
 addnode=104.197.130.51
+addnode=51.15.88.31
+addnode=51.15.78.24
+addnode=173.179.231.182
+addnode=35.196.246.236
+addnode=212.237.25.226
+addnode=51.15.61.35
+addnode=194.67.200.223
+addnode=185.209.20.54
+addnode=108.61.176.212
+addnode=83.220.170.213
+addnode=184.145.218.78
+addnode=176.62.66.106
+addnode=80.64.131.232
+addnode=142.44.247.32
+addnode=108.61.167.134
+addnode=195.95.253.167
+
 
 ```
 Please don't make maxconnections number higher than 30, or you might desync again.
