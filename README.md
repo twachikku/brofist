@@ -18,6 +18,7 @@ Therefore, I make this fork to look after it, and make it to be the community st
 - Block Reward Distribution: 6 PEW to Masternodes, 6 PEW to Miners
 - Premine: 1% (300,000 PEW with Old Dev)
 
+* Block Explorer : https://pew.overemo.com/
 * Bitcointalk ANN : https://bitcointalk.org/index.php?topic=3025770.80 
 * Website: http://brofist-coin.firebaseapp.com  (comming soon)
 * Exchange: https://graviex.net/markets/pewbtc
