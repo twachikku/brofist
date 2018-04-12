@@ -1,7 +1,14 @@
-Masternode config
-=======================
+Multiple Masternodes on Single IPv4 VPS config
+=====================================
 
-BroFist Core allows controlling multiple remote masternodes from a single wallet. The wallet needs to have a valid collateral output of 1000 coins for each masternode and uses a configuration file named `masternode.conf` which can be found in the following data directory (depending on your operating system):
+BroFist Core allows controlling multiple remote masternodes from a single wallet, but it needs to have unique IPv4 for each masternode. 
+So, if your VPS has only one IPv4 address, you can start multiple masternodes by running multiple wallet. Each wallet needs to have a valid collateral output of 1000 coins for masternode.
+
+For example, if you need to run 10 master nodes. You must run 10 BroFist wallets, and each wallet must has 1000 coins. 
+In this sutiation 
+
+
+and uses a configuration file named `masternode.conf` which can be found in the following data directory (depending on your operating system):
  * Windows: %APPDATA%\BroFistCore\
  * Mac OS: ~/Library/Application Support/BroFistCore/
  * Unix/Linux: ~/.brofistcore/
