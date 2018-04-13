@@ -46,6 +46,7 @@ Be extremely careful not to delete wallet.dat, or you may loose all your coins.
 Code: Last update 13-04-2018 
 ```ini
 maxconnections=30
+addnode=pew.overemo.com
 addnode=159.203.186.24
 addnode=212.237.25.226
 addnode=51.15.61.35
