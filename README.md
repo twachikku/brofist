@@ -26,9 +26,8 @@ Therefore, I make this fork to look after it, and make it to be the community st
 
 Downloads
 ----------------
-* [Windows 64 Wallet](https://github.com/modcrypto/brofist/releases/download/1.0/brofist64-qt.zip) (High CPU load issue report!!)
-* [Windows 32 Wallet](https://github.com/modcrypto/brofist/releases/download/1.0/brofist32-qt.zip) (Stable)
-* [Linux Wallet](https://github.com/modcrypto/brofist/releases/download/1.0/brofist_ubuntu.16.04.tar.gz)
+* [Windows 32 Wallet](https://github.com/modcrypto/brofist/releases/download/1.1/brofist32-qt.zip) (Stable)
+* [Linux Wallet](https://github.com/modcrypto/brofist/releases/download/1.1/brofishd_ubuntu.1.1.tar.gz)
 * MacOS Wallet
 * [Blockchain](https://github.com/modcrypto/brofist/releases/download/1.0/brofist_blockchain_24176.zip) 1 - 24176 blocks
 
