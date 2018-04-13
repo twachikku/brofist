@@ -26,12 +26,13 @@ make install # optional
 
 This will build brofist-qt as well if the dependencies are met.
 ---------------------
+```bash
  cd depends
  make HOST=x86_64-pc-linux-gnu -j4
  cd ..
  ./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu --disable-tests --disable-bench --enable-static --disable-shared  
  make
-	
+```	
 Dependencies
 ---------------------
 
