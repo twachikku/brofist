@@ -16,7 +16,7 @@ Therefore, I make this fork to look after it, and make it to be the community st
 - Block Time Average: 120 sec
 - Block Reward: 0-150 - 1 PEW, 150-250 - 3 PEW, 250+ - 12 PEW. 
 - Block Reward Distribution: 6 PEW to Masternodes, 6 PEW to Miners
-- Premine: 1% (300,000 PEW with Old Dev)
+- Premine: 1% (300,000 PEW with [Ex-Developer] https://github.com/brofistnetwork/brofist )
 
 * Block Explorer : https://pew.overemo.com/
 * Bitcointalk ANN : https://bitcointalk.org/index.php?topic=3025770.80 
@@ -46,55 +46,15 @@ Code: Last update 13-04-2018
 ```ini
 maxconnections=30
 addnode=pew.overemo.com
-addnode=159.203.186.24
-addnode=212.237.25.226
-addnode=51.15.61.35
-addnode=13.59.190.151
-addnode=104.168.87.183
-addnode=35.203.57.179
-addnode=104.197.130.51
-addnode=45.77.227.85
-addnode=213.110.122.225
-addnode=144.202.84.33
-addnode=94.181.94.119
-addnode=185.148.39.82
-addnode=90.189.149.194
-addnode=87.224.202.66
-addnode=216.187.82.74
-addnode=80.64.131.234
-addnode=45.63.115.225
-addnode=45.32.186.12
-addnode=45.58.16.26
-addnode=185.160.60.164
-addnode=83.220.170.213
-addnode=212.12.20.198
-addnode=45.32.24.168
+addnode=173.249.9.82
+addnode=207.148.119.112
 addnode=198.13.62.66
 addnode=185.5.251.7
-addnode=185.117.153.77
-addnode=134.196.70.186
-addnode=35.197.95.164
-addnode=35.199.63.148
-addnode=35.227.57.57
+addnode=212.237.25.226
+addnode=185.148.39.82
+addnode=90.189.149.194
 addnode=176.62.66.106
-addnode=173.179.231.182
 addnode=45.77.198.234
-addnode=92.242.3.82
-addnode=104.156.247.243
-addnode=142.44.247.32
-addnode=81.5.117.163
-addnode=207.148.119.112
-addnode=195.211.160.86
-addnode=184.145.218.70
-addnode=173.249.23.236
-addnode=2.225.249.244
-addnode=173.212.201.123
-addnode=51.15.86.239
-addnode=51.15.81.233
-addnode=45.32.112.230
-addnode=184.145.218.78
-addnode=173.249.41.184
-
 
 ```
 Please don't make maxconnections number higher than 30, or you might desync again.
