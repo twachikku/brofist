@@ -139,12 +139,14 @@ _Note: Change 7eAKos41o7WgKQDQYGDc2oFmqsHhKfw7zDc9H8sFbHF8SwmQpZZ  with outputs 
 _Note: Change 7603c20a05258c208b58b0a0d77603b9fc93d47cfa403035f87f3ce0af814566 1  with outputs from step 4.
 
 ### 6. Restart Masternode
+You must wait for 15 confirmations of transection.
+
 ```bash
 ./stop.sh 1 
 ./start.sh 1
 sleep 10
-./cli 1 masternode start-all
-./cli 1 masternode start
+./cli.sh 1 masternode start-all
+./cli.sh 1 masternode start
 
 ```
 
