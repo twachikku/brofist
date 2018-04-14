@@ -66,26 +66,6 @@ For example if your vps ipaddress is 173.249.1.1 then the start.sh will look lik
 
 ipaddress="173.249.1.1"   
 
-if [ "$ipaddress" == "xx.xx.xx.xx" ]; then
-   echo "Please set a ipaddress in file 'start.sh' "
-   exit
-fi
-if [ ! -d "data$1" ]; then
-  cp master data$1 -r
-  echo "rpcport=1213$1" >> data$1/brofist.conf 
-    
-  if [ "$1" == "1" ]; then
-     echo "bind=$ipaddress:11113" >> data$1/brofist.conf   
-  else
-     echo "bind=127.0.0.$1:11113" >> data$1/brofist.conf  
-  fi
-
-  cat addnodes.txt >> data$1/brofist.conf 
-fi
-./brofistd -deamon -datadir=data$1 ${@:2}
-
-sleep 1
-
 ```
 
 ### 4. Start the wallet
