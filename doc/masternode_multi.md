@@ -90,7 +90,7 @@ For example, to stop the masternode no.2
 ```
 
 ### 5. Setup the masternode
-2. Get the wallet address of masternode no.1
+1. Get the wallet address of masternode no.1
 ```bash
 ./cli.sh 1 getaddressesbyaccount ""
 
@@ -101,32 +101,32 @@ You will see the address like this
   "PX8VB4pHG3M6acstLf45oBReNLhoaxjunq"
 ]
 ```
-3. Send coin **1000 PEW** to the address
+2. Send coin **1000 PEW** to the address
 This must be exactly 1000.
 Wait 10 minutes for confirmation.
 Buy PEW from https://graviex.net/markets/pewbtc, if you don't have enougth coins. 
 
-4. Generate the masternode private key
+3. Generate the masternode private key
 ```bash
 ./cli.sh 1 masternode genkey
 ```
 You will see the address like this: 
 7eAKos41o7WgKQDQYGDc2oFmqsHhKfw7zDc9H8sFbHF8SwmQpZZ
 
-5. Check the collateral output
+4. Check the collateral output
 ```bash
 ./cli.sh 1 masternode outputs
 ```
 
-6. Edit  `data1\brofist.conf`  
+5. Edit  `data1\brofist.conf`  
 Add these lines: 
 ```ini
 masternode=1
 masternodeprivkey=7eAKos41o7WgKQDQYGDc2oFmqsHhKfw7zDc9H8sFbHF8SwmQpZZ
 ```
-***change masternodeprivkey with the key from step 4.**
+***change masternodeprivkey with the key from step 3.**
 
-7. Edit  `data1\masternode.conf`  
+6. Edit  `data1\masternode.conf`  
 `masternode.conf` is a space separated text file. Each line consists of an alias, IP address followed by port, masternode private key, collateral output transaction id and collateral output index.
 Add this line:
 ```
@@ -135,7 +135,8 @@ master 173.249.1.1:11113 7eAKos41o7WgKQDQYGDc2oFmqsHhKfw7zDc9H8sFbHF8SwmQpZZ 760
 ```
 
 _Note: Change IPs 173.249.1.1 to your VPS IPs 
-_Note: Change 7603c20a05258c208b58b0a0d77603b9fc93d47cfa403035f87f3ce0af814566 1  with outputs from step 5.
+_Note: Change 7eAKos41o7WgKQDQYGDc2oFmqsHhKfw7zDc9H8sFbHF8SwmQpZZ  with outputs from step 3.
+_Note: Change 7603c20a05258c208b58b0a0d77603b9fc93d47cfa403035f87f3ce0af814566 1  with outputs from step 4.
 
 ### 6. Restart Masternode
 ```bash
@@ -148,6 +149,7 @@ sleep 10
 ```
 
 You can setup another node by replacing 1 with another number.
+* The config files of masternode no.2 will be stored at `data2\brofist.conf` 
 
 Controlling the masternode
 ==========================
