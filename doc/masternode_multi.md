@@ -163,3 +163,12 @@ Controlling the masternode
 ./restart.sh 1 
 ```
 _Note: After restart masternode, you need to wait 6-10 hours for getting the first reward.
+
+
+Donate
+========
+### If this guide is useful for you, please donate at:
+* BROFIST PEW : PAPdawvecLvc3MWqcSTpQ541jcS4uv3hYe
+* DOGE : DDfQSen7rkXvtmUUm1PUXZhA68hquTFSGg
+* LTC : LKzFet22xZvJ7GFypnSn2ncCgT6GSm4hao
+* ONEX : XN9BPdSTgfwjekpt8Z2yhZH7gHkrQHQ68q
