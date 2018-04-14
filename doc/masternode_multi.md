@@ -9,11 +9,21 @@ For example, if you need to run 10 master nodes. You must run 10 BroFist wallets
 Requirements
 ============
 * OS : Linux (Tested on Ubuntu 16.04)
-* Wallet : https://github.com/modcrypto/brofist/releases/download/1.0/brofist_ubuntu.16.04.tar.gz
+* Wallet : https://github.com/modcrypto/brofist/releases/download/1.1/brofistmaster_ubuntu.1.1.tar.gz
 
-In this guide will show a example of setting 2 masternodes with one IPv4 address.
+### 1. Steps to Create a New Sudo User
+1. Log in to your VPS server as the root user.
+2. Use the adduser command to add a new user to your system.
+3. Use the usermod command to add the user to the sudo group.
+4. Close the terminal and re-login with your new username.
+(You can replace ***brofist*** with the username that you want to create.)
+```bash 
+adduser brofist
+usermod -aG sudo brofist
+```
 
-1. Prepare the environment
+### 2. Prepare the environment for runnning the Brofist wallet
+Login with your brofist username.
 Please run theses command line by line.
 ```bash
 sudo apt-get update 
@@ -24,27 +34,108 @@ sudo apt-add-repository ppa:bitcoin/bitcoin
 sudo apt-get update 
 sudo apt-get install libdb4.8-dev libdb4.8++-dev sudo libminiupnpc-dev libzmq3-dev
 ```
-2. Download the wallet for ubuntu.
+### 3. Download and Setup the Brofist Core Masternode.
+1. Download the latest file "brofistmaster_ubuntu.x.x.tar.gz"
 ```bash
-wget https://github.com/modcrypto/brofist/releases/download/1.0/brofist_ubuntu.16.04.tar.gz
-tar -xvf brofist_ubuntu.16.04.tar.gz
+wget https://github.com/modcrypto/brofist/releases/download/1.1/brofistmaster_ubuntu.1.1.tar.gz
+tar -xvf brofistmaster_ubuntu.1.1.tar.gz
 cd brofist
 ls -la
 ```
 
 You will see these files in folder :brofist
 ```
--rwxr--r-- 1 root  2288952 Apr  3 09:16 brofist-cli
--rwxr--r-- 1 root 10123768 Apr  3 12:48 brofistd
--rwxr--r-- 1 root  2602016 Apr  3 09:16 brofist-tx
-drwxrwxr-x 4 root     4096 Apr  3 09:28 master
--rwxrwxr-x 1 root      102 Apr 13 02:12 start.sh
--rwxrwxr-x 1 root       41 Apr  3 09:27 stop.sh
+-rwxr--r-- 1 brofist brofist    1294 Apr 13 11:33 addnodes.txt
+-rwxr--r-- 1 brofist brofist 2288952 Apr 12 21:43 brofist-cli
+-rwxrwxr-x 1 brofist brofist 6522208 Apr 13 14:26 brofistd
+-rwxr--r-- 1 brofist brofist 2602016 Apr  3 04:16 brofist-tx
+-rwxrwxr-x 1 brofist brofist      51 Apr 13 14:28 cli.sh
+drwxrwxr-x 4 brofist brofist    4096 Apr 13 15:25 master
+-rwxrwxr-x 1 brofist brofist     583 Apr 13 15:24 start.sh
+-rwxrwxr-x 1 brofist brofist      55 Apr 12 21:57 stop.sh
 ```
 
-3. Edit start.sh to this code: 
+2. Edit start.sh with **nano start.sh**, and set your ipaddress.
+For example if your vps ipaddress is 173.249.1.1 then the start.sh will look like this:
 ```bash
+#!/bin/bash 
+# usage
+# ./start.sh <n>
+# where n is a number.  
+# example:   ./start.sh
 
+ipaddress="173.249.1.1"   
+
+if [ "$ipaddress" == "xx.xx.xx.xx" ]; then
+   echo "Please set a ipaddress in file 'start.sh' "
+   exit
+fi
+if [ ! -d "data$1" ]; then
+  cp master data$1 -r
+  echo "rpcport=1213$1" >> data$1/brofist.conf 
+    
+  if [ "$1" == "1" ]; then
+     echo "bind=$ipaddress:11113" >> data$1/brofist.conf   
+  else
+     echo "bind=127.0.0.$1:11113" >> data$1/brofist.conf  
+  fi
+
+  cat addnodes.txt >> data$1/brofist.conf 
+fi
+./brofistd -deamon -datadir=data$1 ${@:2}
+
+sleep 1
+
+```
+
+### 4. Start the wallet
+In this guide, we will index each master node by numbers  1,2,3... 
+
+1. First, to create the masternode no.1
+```bash
+./start.sh 1
+```
+After Brofist daemon starting, please wait at lease 2-3 seconds. 
+You can start other masternode by calling **./start.sh n**
+For example, to start the masternode no.2, and no.3
+```bash
+./start.sh 2
+./start.sh 3
+```
+
+You can stop each node by ** ./stop.sh n **
+For example, to stop the masternode no.2
+```bash
+./stop.sh 2
+```
+
+### 5. Setup the masternode
+2. Get the wallet address of masternode no.1
+```bash
+./cli.sh 1 getaddressesbyaccount ""
+
+```
+You will see the address like this 
+```
+[
+  "PX8VB4pHG3M6acstLf45oBReNLhoaxjunq"
+]
+```
+3. Send coin **1000 PEW** to the address
+This must be exactly 1000.
+Wait 10 minutes for confirmation.
+Buy PEW from https://graviex.net/markets/pewbtc, if you don't have enougth coins. 
+
+4. Generate the masternode private key
+```bash
+./cli.sh 1 masternode genkey
+```
+You will see the address like this: 
+7eAKos41o7WgKQDQYGDc2oFmqsHhKfw7zDc9H8sFbHF8SwmQpZZ
+
+5. Check the collateral output
+```bash
+./cli.sh 1 masternode outputs
 ```
 
 and uses a configuration file named `masternode.conf` which can be found in the following data directory (depending on your operating system):
