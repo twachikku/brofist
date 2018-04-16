@@ -76,6 +76,7 @@ if [ "$ipaddress" == "xx.xx.xx.xx" ]; then
    exit
 fi
 if [ ! -d "data$1" ]; then
+  mkdir data$1
   echo "listen=1" >> data$1/brofist.conf 
   echo "daemon=1" >> data$1/brofist.conf 
   echo "server=1" >> data$1/brofist.conf 
