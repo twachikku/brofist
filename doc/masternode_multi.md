@@ -96,7 +96,7 @@ For example, to stop the masternode no.2
 
 ```
 You will see the address like this 
-```
+```json
 [
   "PX8VB4pHG3M6acstLf45oBReNLhoaxjunq"
 ]
@@ -116,6 +116,12 @@ You will see the address like this:
 4. Check the collateral output
 ```bash
 ./cli.sh 1 masternode outputs
+```
+You will see outputs like this:
+```json
+{
+  "7603c20a05258c208b58b0a0d77603b9fc93d47cfa403035f87f3ce0af814566": "1"
+}
 ```
 
 5. Edit  `data1\brofist.conf`  
