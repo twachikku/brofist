@@ -124,6 +124,34 @@ Add these lines:
 masternode=1
 masternodeprivkey=7eAKos41o7WgKQDQYGDc2oFmqsHhKfw7zDc9H8sFbHF8SwmQpZZ
 ```
+
+Example data1\brofist.conf
+
+```ini
+listen=1
+daemon=1
+server=1
+rpcuser=pew
+rpcpassword=password
+rpcallowip=127.0.0.1
+maxconnections=30
+rpcport=12131
+bind=192.168.1.44:11113
+addnode=pew.overemo.com
+addnode=173.249.41.184
+addnode=159.203.186.24
+addnode=212.237.25.226
+addnode=51.15.61.35
+addnode=173.249.9.82
+addnode=104.168.87.183
+addnode=35.203.57.179
+addnode=104.197.130.51
+addnode=45.77.227.85
+masternode=1
+masternodeprivkey=7eAKos41o7WgKQDQYGDc2oFmqsHhKfw7zDc9H8sFbHF8SwmQpZZ
+
+```
+
 ***change masternodeprivkey with the key from step 3.**
 
 6. Edit  `data1\masternode.conf`  
