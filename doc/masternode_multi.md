@@ -127,10 +127,19 @@ You will see the address like this
   "PX8VB4pHG3M6acstLf45oBReNLhoaxjunq"
 ]
 ```
+Example Script for getting wallet address of masternode no.1,2,3
+```bash
+./cli.sh 1 getaddressesbyaccount ""
+./cli.sh 2 getaddressesbyaccount ""
+./cli.sh 3 getaddressesbyaccount ""
+
+```
+
 2. Send coin **1000 PEW** to the address
 This must be exactly 1000.
 Wait 10 minutes for confirmation.
 Buy PEW from https://graviex.net/markets/pewbtc, if you don't have enougth coins. 
+
 
 3. Generate the masternode private key
 ```bash
