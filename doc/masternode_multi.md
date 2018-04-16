@@ -46,17 +46,22 @@ ls -la
 You will see these files in folder :brofist
 ```
 -rwxr--r-- 1 brofist brofist    1294 Apr 13 11:33 addnodes.txt
--rwxr--r-- 1 brofist brofist 2288952 Apr 12 21:43 brofist-cli
+-rwxr--r-- 1 brofist brofist  485776 Apr 12 21:43 brofist-cli
 -rwxrwxr-x 1 brofist brofist 6522208 Apr 13 14:26 brofistd
--rwxr--r-- 1 brofist brofist 2602016 Apr  3 04:16 brofist-tx
+-rwxr--r-- 1 brofist brofist 1004104 Apr 13 04:16 brofist-tx
 -rwxrwxr-x 1 brofist brofist      51 Apr 13 14:28 cli.sh
-drwxrwxr-x 4 brofist brofist    4096 Apr 13 15:25 master
 -rwxrwxr-x 1 brofist brofist     583 Apr 13 15:24 start.sh
 -rwxrwxr-x 1 brofist brofist      55 Apr 12 21:57 stop.sh
 ```
+* **brofistd** is the Brofist daemon. 
+* **brofist-cli** is the Brofist command-line interface. 
+* **cli.sh** is the bash script file wrapper for calling brofist-cli.
+* **start.sh** is the bash script file wrapper for starting brofist daemon.
+* **stop.sh** is the bash script file wrapper for stopping brofist daemon.
 
 2. Edit start.sh with **nano start.sh**, and set your ipaddress.
 For example if your vps ipaddress is 173.249.1.1 then the start.sh will look like this:
+
 ```bash
 #!/bin/bash 
 # usage
@@ -65,6 +70,26 @@ For example if your vps ipaddress is 173.249.1.1 then the start.sh will look lik
 # example:   ./start.sh
 
 ipaddress="173.249.1.1"   
+
+if [ "$ipaddress" == "xx.xx.xx.xx" ]; then
+   echo "Please set a ipaddress in file 'start.sh' "
+   exit
+fi
+if [ ! -d "data$1" ]; then
+  echo "listen=1" >> data$1/brofist.conf 
+  echo "daemon=1" >> data$1/brofist.conf 
+  echo "server=1" >> data$1/brofist.conf 
+  echo "rpcuser=pew" >> data$1/brofist.conf 
+  echo "rpcpassword=password" >> data$1/brofist.conf 
+  echo "rpcallowip=127.0.0.1" >> data$1/brofist.conf 
+  echo "maxconnections=30" >> data$1/brofist.conf 
+  echo "rpcport=127$1" >> data$1/brofist.conf    
+  echo "bind=$ipaddress:11113" >> data$1/brofist.conf   
+  cat addnodes.txt >> data$1/brofist.conf 
+fi
+./brofistd -deamon -datadir=data$1 ${@:2}
+
+sleep 1
 
 ```
 
