@@ -17,11 +17,16 @@ Therefore, I make this fork to look after it, and make it to be the community st
 - Block Reward: 0-150 - 1 PEW, 150-250 - 3 PEW, 250+ - 12 PEW. 
 - Block Reward Distribution: 6 PEW to Masternodes, 6 PEW to Miners
 - Premine: 1% (300,000 PEW with [Ex-Developer] https://github.com/brofistnetwork/brofist )
+- Port P2P:***11113** RPC:**12454***
 
 * Block Explorer : https://pew.overemo.com/
 * Bitcointalk ANN : https://bitcointalk.org/index.php?topic=3025770.80 
 * Website: http://brofist-coin.firebaseapp.com  (coming soon)
-* Exchange: https://graviex.net/markets/pewbtc
+* Exchange: 
+  ** Graviex - https://graviex.net/markets/pewbtc
+  ** BarterDEX - https://komodoplatform.com/decentralized-exchange/
+     To use BarterDEX, you must set **rpcport=12454** in brofist.conf 
+
 * Discord: https://discord.gg/p2rsNEb
 
 Downloads
