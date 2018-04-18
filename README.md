@@ -33,7 +33,7 @@ Tools
 
 Downloads
 ----------------
-* [Windows 32 Wallet](https://github.com/modcrypto/brofist/releases/download/1.1/brofist32-qt.zip) (Stable)
+* [Windows 32 Wallet](https://github.com/modcrypto/brofist/releases/download/1.1/brofist32-qt.1.2.zip) (Stable)
 * [Linux Wallet](https://github.com/modcrypto/brofist/releases/download/1.1/brofishd_ubuntu.1.1.tar.gz)
 * MacOS Wallet
 * [Blockchain](https://github.com/modcrypto/brofist/releases/download/1.0/brofist_blockchain_24176.zip) 1 - 24176 blocks
