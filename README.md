@@ -5,8 +5,7 @@ BROFIST COIN - A COMMUNITY RE-DESIGNED COIN
 What is BroFist?
 ----------------
 
-This is just another one coin that the developer had gone away, and left it to be a shit coin.
-Therefore, I make this fork to look after it, and make it to be the community stable and reliable coin.
+I make this fork to look after it, and make it to be the community stable and reliable coin.
 
 - Maximum Supply: 31,000,000 coins
 - Algorithm: NeoScrypt
@@ -29,7 +28,7 @@ Tools
   - BarterDEX - https://komodoplatform.com/decentralized-exchange/
     To use BarterDEX, you must set **rpcport=12454** in brofist.conf 
 
-* Discord: https://discord.gg/p2rsNEb
+* Discord: (Old) https://discord.gg/p2rsNEb  (New) https://discord.gg/QBTgeMZ
 
 Downloads
 ----------------
