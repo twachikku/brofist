@@ -488,7 +488,7 @@
            </property>
            <property name="icon">
             <iconset resource="../brofist.qrc">
-             <normaloff>:/icons/drkblue/remove</normaloff>:/icons/drkblue/remove</iconset>
+             <normaloff>:/icons/light/remove</normaloff>:/icons/light/remove</iconset>
            </property>
            <property name="shortcut">
             <string notr="true">Ctrl+L</string>

@@ -1948,10 +1948,10 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     // this was discussed in the IRC meeting on 2016-03-31.
     //
     // --- disabled ---
-    //int64_t nPowTargetSpacing = Params().GetConsensus().nPowTargetSpacing;
-    //CScheduler::Function f = boost::bind(&PartitionCheck, &IsInitialBlockDownload,
-    //                                     boost::ref(cs_main), boost::cref(pindexBestHeader), nPowTargetSpacing);
-    //scheduler.scheduleEvery(f, nPowTargetSpacing);
+   int64_t nPowTargetSpacing = Params().GetConsensus().nPowTargetSpacing;
+   CScheduler::Function f = boost::bind(&PartitionCheck, &IsInitialBlockDownload,
+                                        boost::ref(cs_main), boost::cref(pindexBestHeader), nPowTargetSpacing);
+   scheduler.scheduleEvery(f, nPowTargetSpacing);
     // --- end disabled ---
 
     // Generate coins in the background

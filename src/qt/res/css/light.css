@@ -36,19 +36,19 @@
     }
     
     QMenu::item:selected {
-    background-color:#f2f0f0;
+    background-color:#ffffee;
     color:#333;
     }
     
     QToolBar {
-    background-color:#9999dd;
+    background-color:#969494;
     border:0px solid #000;
     padding:0;
     margin:0;
     }
     
     QToolBar > QToolButton {
-    background-color:#9999dd;
+    background-color:#969494;
     border:0px solid #333;
     min-height:2.5em;
     padding: 0em 1em;
@@ -57,7 +57,7 @@
     }
     
     QToolBar > QToolButton:checked {
-    background-color:#fff;
+    background-color: #FFE;
     color:#333;
     font-weight:bold;
     }
@@ -101,23 +101,23 @@
     
     /*******************************************************/
     
-    QPushButton { /* Global Button Style */
-    background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #ff96d5, stop: .1 #ff93d4, stop: .95 #ff87cf, stop: 1 #ff7fcb);
-    border:0;
-    border-radius:3px;
-    color:#ffffff;
-    font-size:12px;
-    font-weight:bold;
-    padding-left:25px;
-    padding-right:25px;
-    padding-top:5px;
-    padding-bottom:5px;
+    QPushButton {
+        /* Global Button Style */
+        background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0.01 #aaeeee, stop: .1 #4499dd, stop: .95 #448899, stop: 0.99 #222244);
+        border: 0;
+        border-radius: 2px;
+        color: #ffffff;
+        font-size: 12px;
+        padding-left: 25px;
+        padding-right: 25px;
+        padding-top: 5px;
+        padding-bottom: 5px;
     }
-    
+        
     QPushButton:hover {
-    background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01  #8899dd, stop: .1  #8899dd, stop: .95  #8899dd, stop: 1  #8899dd);
+        background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0.01 #aaeeee, stop: .1 #44aaee, stop: .95 #4488aa, stop: 0.99 #222255);
     }
-    
+        
     QPushButton:focus {
     border:none;
     outline:none;
@@ -269,51 +269,55 @@
     }
     
     /*******************************************************/
-    
-    QHeaderView { /* Table Header */
-    background-color:transparent;
+    /* Table Header Sections */
+   
+    QWidget#MasternodeList{
+        background-color: #eeffee;
+      }
+    QHeaderView {
+          background-color:transparent;
     }
-    
-    QHeaderView::section { /* Table Header Sections */
-    qproperty-alignment:center;
-    background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 0.25, stop: 0  #8899dd, stop: 1  #8899dd);
-    color:#fff;
-    min-height:25px;
-    font-weight:bold;
-    font-size:11px;
-    outline:0;
-    border:0px solid #fff;
-    border-right:1px solid #fff;
-    padding-left:5px;
-    padding-right:5px;
-    padding-top:2px;
-    padding-bottom:2px;
-    }
-    
-    QHeaderView::section:last {
-    border-right: 0px solid #d7d7d7;
-    }
-    
-    .QScrollArea {
+          
+    QHeaderView::section { 
+          qproperty-alignment:center;
+          background-color: #3399dd;
+          color:#fff;
+          min-height:25px;
+          font-weight:bold;
+          font-size:11px;
+          outline:1;
+          border:0px solid #fff;
+          border-right:1px solid #fff;
+          padding-left:5px;
+          padding-right:5px;
+          padding-top:2px;
+          padding-bottom:2px;
+   }
+          
+   QHeaderView::section:last {
+          border-right: 0px solid #d7d7d7;
+   } 
+   .QScrollArea {
     background:transparent;
     border:0px;
     }
     
-    .QTableView { /* Table - has to be selected as a class otherwise it throws off QCalendarWidget */
+    .QTableView { 
     background:transparent;
     border:0px solid #fff;
     }
     
-    QTableView::item { /* Table Item */
+    QTableView::item { 
     background-color:#fcfcfc;
     font-size:12px;
     }
     
-    QTableView::item:selected { /* Table Item Selected */
+    QTableView::item:selected {
     background-color:#ffffaa;
     color:#333;
     }
     
+
     QScrollBar { /* Scroll Bar */
     
     }
@@ -786,6 +790,8 @@
     color:#0386be;
     margin-right:5px;
     padding-right:5px;
+	font-weight:bold;
+    font-size:14px;
     }
     
     QWidget .QFrame#frame .QLabel#labelWalletStatus { /* Wallet Sync Status */
@@ -894,7 +900,7 @@
     /* PRIVATESEND WIDGET */
     
     QWidget .QFrame#framePrivateSend { /* PrivateSend Widget */
-    background-color:#aabbcc;
+    background-color:rgba(100, 100, 100, 128);
     max-width: 451px;
     min-width: 451px;
     max-height: 350px;
@@ -1394,12 +1400,17 @@
     min-height:25px;
     }
     
-    QDialog#CoinControlDialog .QFrame#frame .QPushButton#pushButtonToggleLock { /* Toggle lock state button */
+    QDialog#CoinControlDialog .QFrame#frame .QPushButton#pushButtonLock1000 { /* Toggle lock state button */
     padding-left:10px;
     padding-right:10px;
     min-height:25px;
     }
-    
+    QDialog#CoinControlDialog .QFrame#frame .QPushButton#pushButtonToggleLock { /* Toggle lock state button */
+        padding-left:10px;
+        padding-right:10px;
+        min-height:25px;
+    }
+
     QDialog#CoinControlDialog .QDialogButtonBox#buttonBox QPushButton { /* Coin Control 'OK' button */
     }
     

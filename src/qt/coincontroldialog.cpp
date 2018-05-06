@@ -130,6 +130,8 @@ CoinControlDialog::CoinControlDialog(const PlatformStyle *platformStyle, QWidget
     // Toggle lock state
     connect(ui->pushButtonToggleLock, SIGNAL(clicked()), this, SLOT(buttonToggleLockClicked()));
 
+    connect(ui->pushButtonLock1000, SIGNAL(clicked()), this, SLOT(buttonLock1000Clicked()));
+
     // change coin control first column label due Qt4 bug.
     // see https://github.com/bitcoin/bitcoin/issues/5716
     ui->treeWidget->headerItem()->setText(COLUMN_CHECKBOX, QString());
@@ -200,7 +202,17 @@ void CoinControlDialog::buttonBoxClicked(QAbstractButton* button)
 // (un)select all
 void CoinControlDialog::buttonSelectAllClicked()
 {
+    
+    QString masterAmnt = strPad(QString::number(1000*COIN), 15, " ");
+/*    QString s = masterAmnt + " " + ui->treeWidget->topLevelItem(0)->text(COLUMN_AMOUNT_INT64);
+
+     QMessageBox msgBoxx;
+        msgBoxx.setObjectName("lockMessageBox");
+        msgBoxx.setStyleSheet(GUIUtil::loadStyleSheet());
+        msgBoxx.setText(s);
+        msgBoxx.exec(); */
     Qt::CheckState state = Qt::Checked;
+    int n=0;
     for (int i = 0; i < ui->treeWidget->topLevelItemCount(); i++)
     {
         if (ui->treeWidget->topLevelItem(i)->checkState(COLUMN_CHECKBOX) != Qt::Unchecked)
@@ -210,9 +222,17 @@ void CoinControlDialog::buttonSelectAllClicked()
         }
     }
     ui->treeWidget->setEnabled(false);
-    for (int i = 0; i < ui->treeWidget->topLevelItemCount(); i++)
-            if (ui->treeWidget->topLevelItem(i)->checkState(COLUMN_CHECKBOX) != state)
-                ui->treeWidget->topLevelItem(i)->setCheckState(COLUMN_CHECKBOX, state);
+    for (int i = 0; i < ui->treeWidget->topLevelItemCount(); i++){
+            if( masterAmnt == ui->treeWidget->topLevelItem(i)->text(COLUMN_AMOUNT_INT64)){
+                ui->treeWidget->topLevelItem(i)->setCheckState(COLUMN_CHECKBOX, Qt::Unchecked);
+            }else{             
+              if (ui->treeWidget->topLevelItem(i)->checkState(COLUMN_CHECKBOX) != state){
+                 ui->treeWidget->topLevelItem(i)->setCheckState(COLUMN_CHECKBOX, state);
+                 n++;
+                 if(n>150) break; // limit 150 items 
+              }
+            }
+    }
     ui->treeWidget->setEnabled(true);
     if (state == Qt::Unchecked)
         coinControl->UnSelectAll(); // just to be sure
@@ -240,6 +260,36 @@ void CoinControlDialog::buttonToggleLockClicked()
                 item->setDisabled(true);
                 item->setIcon(COLUMN_CHECKBOX, QIcon(":/icons/" + theme + "/lock_closed"));
             }
+            updateLabelLocked();
+        }
+        ui->treeWidget->setEnabled(true);
+        CoinControlDialog::updateLabels(model, this);
+    }
+    else{
+        QMessageBox msgBox;
+        msgBox.setObjectName("lockMessageBox");
+        msgBox.setStyleSheet(GUIUtil::loadStyleSheet());
+        msgBox.setText(tr("Please switch to \"List mode\" to use this function."));
+        msgBox.exec();
+    }
+}
+// Toggle lock state
+void CoinControlDialog::buttonLock1000Clicked()
+{
+    QTreeWidgetItem *item;
+    QString theme = GUIUtil::getThemeName();
+    QString masterAmnt = strPad(QString::number(1000*COIN), 15, " ");
+    // Works in list-mode only
+    if(ui->radioListMode->isChecked()){
+        ui->treeWidget->setEnabled(false);
+        for (int i = 0; i < ui->treeWidget->topLevelItemCount(); i++){
+            item = ui->treeWidget->topLevelItem(i);
+            COutPoint outpt(uint256S(item->text(COLUMN_TXHASH).toStdString()), item->text(COLUMN_VOUT_INDEX).toUInt());
+            if( masterAmnt == item->text(COLUMN_AMOUNT_INT64)){
+                model->lockCoin(outpt);
+                item->setDisabled(true);
+                item->setIcon(COLUMN_CHECKBOX, QIcon(":/icons/" + theme + "/lock_closed"));
+            }            
             updateLabelLocked();
         }
         ui->treeWidget->setEnabled(true);

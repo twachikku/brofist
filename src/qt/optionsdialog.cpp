@@ -91,9 +91,6 @@ OptionsDialog::OptionsDialog(QWidget *parent, bool enableWallet) :
     
     /* Theme selector */
     ui->theme->addItem(QString("PEW-light"), QVariant("light"));
-    ui->theme->addItem(QString("PEW-blue"), QVariant("drkblue"));
-    ui->theme->addItem(QString("PEW-Crownium"), QVariant("crownium"));
-    ui->theme->addItem(QString("PEW-traditional"), QVariant("trad"));
     
     /* Language selector */
     QDir translations(":translations");

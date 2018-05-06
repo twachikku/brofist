@@ -1150,8 +1150,10 @@ void BitcoinGUI::showEvent(QShowEvent *event)
 }
 
 #ifdef ENABLE_WALLET
+unsigned long lasttime = 0;
 void BitcoinGUI::incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address, const QString& label)
 {
+    if(true) return;
     // On new transaction, make an info balloon
     QString msg = tr("Date: %1\n").arg(date) +
                   tr("Amount: %1\n").arg(BitcoinUnits::formatWithUnit(unit, amount, true)) +
@@ -1160,8 +1162,15 @@ void BitcoinGUI::incomingTransaction(const QString& date, int unit, const CAmoun
         msg += tr("Label: %1\n").arg(label);
     else if (!address.isEmpty())
         msg += tr("Address: %1\n").arg(address);
-    message((amount)<0 ? tr("Sent transaction") : tr("Incoming transaction"),
-             msg, CClientUIInterface::MSG_INFORMATION);
+    QString msgtype=(amount)<0 ? tr("Sent transaction") : tr("Incoming transaction");
+    // we need to delay 5 seconds before notify
+    unsigned long curtime = GetTickCount();
+    if (curtime - lasttime < 5000){
+        lasttime = curtime;
+        return;
+    }  
+    lasttime = curtime;      
+    message(msgtype, msg, CClientUIInterface::MSG_INFORMATION);
 }
 #endif // ENABLE_WALLET
 
