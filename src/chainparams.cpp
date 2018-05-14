@@ -108,7 +108,8 @@ public:
         pchMessageStart[1] = 0xb2;
         pchMessageStart[2] = 0xc3;
         pchMessageStart[3] = 0xd4;
-        vAlertPubKey = ParseHex("045f6f7880946beb809b89610a5c1fa3a25604e6a1fe0642576390f3c3be43f7d175cd3e62cbe90fac8868a3ba25ebcefb382f3ddaf0de20ca3a2697ed21b75110");
+        vAlertPubKey = ParseHex("04a88ea95c9148d71d87f995fa3593ce7e15de1db7cf78efbd01ed2d2cdc3a962fea05b030b4e6ffbfa981236d06efb4bf22eaa5baf68260e70c4446f2c22e0627");
+      
         nDefaultPort = 11113;
         nMaxTipAge   = 4 * 60 * 60; // ~144 blocks behind -> 2 x fork detection time, was 24 * 60 * 60 in bitcoin
         //nMaxTipAge = 1.0 * 60 * 60; // fixed error
@@ -119,11 +120,9 @@ public:
         assert(consensus.hashGenesisBlock == uint256S("0x00000a3c139dd60e6da641c558b57aa67e92ae76c0dbf18c16070f98f6dfb9b0"));
         assert(genesis.hashMerkleRoot == uint256S("0x5ea94ac45184326a87a17483e20d0322ffaffc9faff17c8eae8e534a5839f9da"));
 
-        vSeeds.push_back(CDNSSeedData("brofist.network", "pew.overemo.com"));
-        vSeeds.push_back(CDNSSeedData("brofist.network", "173.249.41.184"));
-        vSeeds.push_back(CDNSSeedData("brofist.network", "198.13.62.66"));
-        vSeeds.push_back(CDNSSeedData("brofist.network", "173.249.9.82"));
-        
+        vSeeds.push_back(CDNSSeedData("seed.brofist.online", "seed1.brofist.online"));
+        vSeeds.push_back(CDNSSeedData("seed.brofist.online", "seed2.brofist.online"));
+        vSeeds.push_back(CDNSSeedData("seed.brofist.online", "seed3.brofist.online"));
         // BroFist addresses start with 'P'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,55);
         // BroFist script addresses start with '5'
@@ -147,7 +146,7 @@ public:
 
         nPoolMaxTransactions = 3;
         nFulfilledRequestExpireTime = 60*60; // fulfilled requests expire in 1 hour
-        strSporkPubKey = "042925f2904184e419f890076f94e24943b20e149b4ba703e90b03d974ed04325e2cb289941d220e161000ead5e1cefebe160993df6f3b23741fa5f6e4c6f7a123";
+        strSporkPubKey = "047e3bf198531c8af0450ab20a91bf521fda24ae7ceadcfed7cf169f2b06867eafa374e7ed92d6a2fc7c4c6cffa2673b45867d245439c922bb697432560ca6d6fe";
         strMasternodePaymentsPubKey = "042925f2904184e419f890076f94e24943b20e149b4ba703e90b03d974ed04325e2cb289941d220e161000ead5e1cefebe160993df6f3b23741fa5f6e4c6f7a123";
 
         checkpointData = (CCheckpointData) {

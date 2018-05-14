@@ -129,9 +129,12 @@ struct masternode_info_t
     int64_t nTimeLastPaid;
     int64_t nTimeLastWatchdogVote;
     int64_t nTimeLastPing;
+    CAmount nCollateral;
+
     int nActiveState;
     int nProtocolVersion;
     bool fInfoValid;
+    
 };
 
 //
@@ -280,6 +283,7 @@ public:
 
     bool IsValidForPayment()
     {
+        if(!isValidCollateral()) return false;
         if(nActiveState == MASTERNODE_ENABLED) {
             return true;
         }
@@ -287,7 +291,7 @@ public:
            (nActiveState == MASTERNODE_WATCHDOG_EXPIRED)) {
             return true;
         }
-
+        
         return false;
     }
 
@@ -304,6 +308,8 @@ public:
     std::string GetStatus() const;
 
     int GetCollateralAge();
+    CAmount getCollateralValue();
+    bool isValidCollateral();
 
     int GetLastPaidTime() { return nTimeLastPaid; }
     int GetLastPaidBlock() { return nBlockLastPaid; }

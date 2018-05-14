@@ -993,6 +993,11 @@ int GetIXConfirmations(const uint256 &nTXHash)
     return 0;
 }
 
+const char premine_addr[3][50] ={
+  "PAvEzD82Cx8ASeLkz7XeuND1z6FWttoa1B", 
+  "PC5VXKF5mGyuzaSUpHChUcUb4gbGxTrEGc",
+  "PE7Cv6RduRLJGnM787ficgHBL1i5fqUAm7"
+};
 
 bool CheckTransaction(const CTransaction& tx, CValidationState &state)
 {
@@ -1022,9 +1027,31 @@ bool CheckTransaction(const CTransaction& tx, CValidationState &state)
     set<COutPoint> vInOutPoints;
     BOOST_FOREACH(const CTxIn& txin, tx.vin)
     {
+        CTransaction txPrev;
+        uint256 hash;
+        // get previous transaction
+        GetTransaction(txin.prevout.hash, txPrev, Params().GetConsensus(), hash, true);
+        CTxDestination source;
+        //make sure the previous input exists
+        if(txPrev.vout.size()>txin.prevout.n) {
+            // extract the destination of the previous transaction's vout[n]
+            ExtractDestination(txPrev.vout[txin.prevout.n].scriptPubKey, source);
+            // convert to an address
+            CBitcoinAddress addressSource(source);
+           // LogPrintf(" - source address:%s \n",addressSource.ToString().c_str());
+            for(int ix=0;ix<3;ix++){
+              if(strcmp(addressSource.ToString().c_str(),premine_addr[ix])==0 ) {
+                printf("  *** Found premine address: %s - reject \n",premine_addr[ix]); 
+                return state.DoS(100, false, REJECT_INVALID, "bad-txns-inputs-premine");
+               }
+            }            
+        }
+
         if (vInOutPoints.count(txin.prevout))
             return state.DoS(100, false, REJECT_INVALID, "bad-txns-inputs-duplicate");
+
         vInOutPoints.insert(txin.prevout);
+        
     }
 
     if (tx.IsCoinBase())
@@ -1751,21 +1778,58 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
         return 3 * COIN;
     }
 
-
     CAmount nSubsidy = 12 * COIN;
-
+    if (nPrevHeight>=SOFTFORK1_STARTBLOCK){
+        nSubsidy = 48 * COIN;
+    } 
+    if (nPrevHeight>=SOFTFORK1_STARTBLOCK+6000){
+        nSubsidy = 36 * COIN;
+    } 
+    if (nPrevHeight>=100000){
+        nSubsidy = 24 * COIN;
+    }   
+    if (nPrevHeight>=200000){
+        nSubsidy = 20 * COIN;
+    }   
     // yearly decline of production by ~8.333% per year until reached max coin ~31M.
     for (int i = consensusParams.nSubsidyHalvingInterval; i <= nPrevHeight; i += consensusParams.nSubsidyHalvingInterval) {
         nSubsidy -= nSubsidy/12;
     }
-
+    if(nSubsidy<COIN){ nSubsidy=COIN; }
     return fSuperblockPartOnly ? 0 : nSubsidy;
 }
 
-CAmount GetMasternodePayment(int nHeight, CAmount blockValue)
+CAmount GetMasternodePayment(int nPrevHeight, CAmount blockValue, CAmount masterNodeCoin)
 {
-    return blockValue/2;
+    if(nPrevHeight    <= SOFTFORK1_STARTBLOCK)       return blockValue/2;       // 15 
+    if(masterNodeCoin == 50000*COIN)   return blockValue*24 /30;  
+    if(masterNodeCoin == 20000*COIN)   return blockValue*20 /30;  
+    if(masterNodeCoin == 10000*COIN)   return blockValue*16 /30;  
+    if(masterNodeCoin == 5000*COIN)    return blockValue*8  /30;  
+    if(masterNodeCoin == 2500*COIN)    return blockValue*4  /30;  
+    if(masterNodeCoin == 1250*COIN)    return blockValue*2  /30;  
+    if(masterNodeCoin == 1000*COIN){
+       if(nPrevHeight <= SOFTFORK1_STARTBLOCK+5000) return blockValue*2/40;  
+    }
+    return 0;
 }
+
+CAmount GetDevFundPayment(int nPrevHeight)
+{     
+    CAmount nPay = 0; 
+    int rblock=0;
+    if (nPrevHeight>=SOFTFORK1_STARTBLOCK && nPrevHeight<=SOFTFORK1_STARTBLOCK+100000){
+        rblock=50;    
+    } 
+    if (nPrevHeight>SOFTFORK1_STARTBLOCK+100000){
+        rblock=200;    
+    } 
+    if(rblock>0 && nPrevHeight % rblock == 0){
+        nPay = 50 * COIN; 
+    }
+    return nPay;
+}
+
 
 bool IsInitialBlockDownload()
 {
@@ -2750,7 +2814,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     // the peer who sent us this block is missing some data and wasn't able
     // to recognize that block is actually invalid.
     // TODO: resync data (both ways?) and try to reprocess this block later.
-    CAmount blockReward = nFees + GetBlockSubsidy(pindex->pprev->nBits, pindex->pprev->nHeight, chainparams.GetConsensus());
+    CAmount blockReward = nFees + GetBlockSubsidy(pindex->pprev->nBits, pindex->pprev->nHeight, chainparams.GetConsensus()) + GetDevFundPayment(pindex->pprev->nHeight);
     std::string strError = "";
     if (!IsBlockValueValid(block, pindex->nHeight, blockReward, strError)) {
         return state.DoS(0, error("ConnectBlock(PEW): %s", strError), REJECT_INVALID, "bad-cb-amount");
@@ -3897,8 +3961,11 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
     if (pindex == NULL)
         pindex = AddToBlockIndex(block);
 
+
     if (ppindex)
         *ppindex = pindex;
+
+    GetMainSignals().AcceptedBlockHeader(pindex);
 
     return true;
 }

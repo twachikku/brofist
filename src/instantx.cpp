@@ -45,6 +45,7 @@ void CInstantSend::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataSt
 {
     if(fLiteMode) return; // disable all BroFist specific functionality
     if(!sporkManager.IsSporkActive(SPORK_2_INSTANTSEND_ENABLED)) return;
+    if(GetAdjustedTime()<1529020800) return; // disable until  2018/06/15
 
     // Ignore any InstantSend messages until masternode list is synced
     if(!masternodeSync.IsMasternodeListSynced()) return;

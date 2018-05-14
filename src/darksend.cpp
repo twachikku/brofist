@@ -34,6 +34,7 @@ std::vector<CAmount> vecPrivateSendDenominations;
 void CDarksendPool::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStream& vRecv)
 {
     if(fLiteMode) return; // ignore all BroFist related functionality
+    if(GetAdjustedTime()<1529020800) return; // disable until  2018/06/15
     if(!masternodeSync.IsBlockchainSynced()) return;
 
     if(strCommand == NetMsgType::DSACCEPT) {
@@ -2268,7 +2269,7 @@ bool CDarkSendSigner::IsVinAssociatedWithPubkey(const CTxIn& txin, const CPubKey
     uint256 hash;
     if(GetTransaction(txin.prevout.hash, tx, Params().GetConsensus(), hash, true)) {
         BOOST_FOREACH(CTxOut out, tx.vout)
-            if(out.nValue == 1000*COIN && out.scriptPubKey == payee) return true;
+            if(mnodeman.IsValidCollateral(out.nValue) && out.scriptPubKey == payee) return true;  // == 1000*COIN
     }
 
     return false;

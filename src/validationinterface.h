@@ -44,6 +44,9 @@ protected:
     friend void ::RegisterValidationInterface(CValidationInterface*);
     friend void ::UnregisterValidationInterface(CValidationInterface*);
     friend void ::UnregisterAllValidationInterfaces();
+
+    virtual void AcceptedBlockHeader(const CBlockIndex *pindexNew) {};
+    virtual void NotifyHeaderTip(const CBlockIndex *pindexNew, bool fInitialDownload) {};
 };
 
 struct CMainSignals {
@@ -67,6 +70,12 @@ struct CMainSignals {
     boost::signals2::signal<void (boost::shared_ptr<CReserveScript>&)> ScriptForMining;
     /** Notifies listeners that a block has been successfully mined */
     boost::signals2::signal<void (const uint256 &)> BlockFound;
+
+    /** Notifies listeners of accepted block header */
+    boost::signals2::signal<void (const CBlockIndex *)> AcceptedBlockHeader;
+    /** Notifies listeners of updated block header tip */
+    boost::signals2::signal<void (const CBlockIndex *, bool fInitialDownload)> NotifyHeaderTip;
+
 };
 
 CMainSignals& GetMainSignals();

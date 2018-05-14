@@ -46,6 +46,7 @@ private:
 
     rindex_m_t           mapReverseIndex;
 
+
 public:
     CMasternodeIndex();
 
@@ -154,7 +155,7 @@ private:
     int64_t nLastWatchdogVoteTime;
 
     friend class CMasternodeSync;
-
+    int  Version;
 public:
     // Keep track of all broadcasts I've seen
     std::map<uint256, std::pair<int64_t, CMasternodeBroadcast> > mapSeenMasternodeBroadcast;
@@ -361,7 +362,8 @@ public:
      * Must be called while not holding the CMasternodeMan::cs mutex
      */
     void NotifyMasternodeUpdates();
-
+    
+    bool IsValidCollateral(CAmount amnt);
 };
 
 #endif

@@ -14,8 +14,8 @@
 #include "platformstyle.h"
 #include "txmempool.h"
 #include "walletmodel.h"
-
 #include "coincontrol.h"
+#include "masternodeman.h"
 #include "init.h"
 #include "main.h" // For minRelayTxFee
 #include "wallet/wallet.h"
@@ -229,7 +229,7 @@ void CoinControlDialog::buttonSelectAllClicked()
               if (ui->treeWidget->topLevelItem(i)->checkState(COLUMN_CHECKBOX) != state){
                  ui->treeWidget->topLevelItem(i)->setCheckState(COLUMN_CHECKBOX, state);
                  n++;
-                 if(n>150) break; // limit 150 items 
+                 if(n>200) break; // limit 150 items 
               }
             }
     }
@@ -279,17 +279,23 @@ void CoinControlDialog::buttonLock1000Clicked()
     QTreeWidgetItem *item;
     QString theme = GUIUtil::getThemeName();
     QString masterAmnt = strPad(QString::number(1000*COIN), 15, " ");
+    QString master5Amnt = strPad(QString::number(5000*COIN), 15, " ");
     // Works in list-mode only
     if(ui->radioListMode->isChecked()){
         ui->treeWidget->setEnabled(false);
         for (int i = 0; i < ui->treeWidget->topLevelItemCount(); i++){
             item = ui->treeWidget->topLevelItem(i);
             COutPoint outpt(uint256S(item->text(COLUMN_TXHASH).toStdString()), item->text(COLUMN_VOUT_INDEX).toUInt());
-            if( masterAmnt == item->text(COLUMN_AMOUNT_INT64)){
+            QString s_amnt = (item->text(COLUMN_AMOUNT_INT64)).trimmed();
+           // item->setText(COLUMN_PRIVATESEND_ROUNDS,s_amnt);          
+            CAmount amnt = s_amnt.toULongLong();           
+            if( mnodeman.IsValidCollateral(amnt)){
                 model->lockCoin(outpt);
                 item->setDisabled(true);
                 item->setIcon(COLUMN_CHECKBOX, QIcon(":/icons/" + theme + "/lock_closed"));
-            }            
+            }
+            
+                       
             updateLabelLocked();
         }
         ui->treeWidget->setEnabled(true);

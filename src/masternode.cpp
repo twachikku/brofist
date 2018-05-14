@@ -212,15 +212,22 @@ void CMasternode::Check(bool fForce)
     bool fOurMasternode = fMasterNode && activeMasternode.pubKeyMasternode == pubKeyMasternode;
 
                    // masternode doesn't meet payment protocol requirements ...
-    bool fRequireUpdate = nProtocolVersion < mnpayments.GetMinMasternodePaymentsProto() ||
+    bool fRequireUpdate = nProtocolVersion < mnpayments.GetMinMasternodePaymentsProto();
+                  /*  === version 70208 is valid until block SOFTFORK1_STARTBLOCK                 
+                  ||
                    // or it's our own node and we just updated it to the new protocol but we are still waiting for activation ...
-                   (fOurMasternode && nProtocolVersion < PROTOCOL_VERSION);
+                   (fOurMasternode && nProtocolVersion < PROTOCOL_VERSION); */
 
     if(fRequireUpdate) {
         nActiveState = MASTERNODE_UPDATE_REQUIRED;
         if(nActiveStatePrev != nActiveState) {
             LogPrint("masternode", "CMasternode::Check -- Masternode %s is in %s state now\n", vin.prevout.ToStringShort(), GetStateString());
         }
+        return;
+    }
+
+    if(!isValidCollateral()){
+        nActiveState = MASTERNODE_OUTPOINT_SPENT;
         return;
     }
 
@@ -312,6 +319,7 @@ masternode_info_t CMasternode::GetInfo()
     info.nActiveState = nActiveState;
     info.nProtocolVersion = nProtocolVersion;
     info.fInfoValid = true;
+    info.nCollateral = getCollateralValue();
     return info;
 }
 
@@ -362,6 +370,16 @@ int CMasternode::GetCollateralAge()
     return nHeight - nCacheCollateralBlock;
 }
 
+CAmount CMasternode::getCollateralValue(){
+    CCoins coins;
+    if(!pcoinsTip->GetCoins(vin.prevout.hash, coins) ||
+           (unsigned int)vin.prevout.n>=coins.vout.size() ||
+           coins.vout[vin.prevout.n].IsNull()) {
+            return 0;
+    }
+    return coins.vout[vin.prevout.n].nValue;
+}
+
 void CMasternode::UpdateLastPaid(const CBlockIndex *pindex, int nMaxBlocksToScanBack)
 {
     if(!pindex) return;
@@ -380,8 +398,8 @@ void CMasternode::UpdateLastPaid(const CBlockIndex *pindex, int nMaxBlocksToScan
             CBlock block;
             if(!ReadBlockFromDisk(block, BlockReading, Params().GetConsensus())) // shouldn't really happen
                 continue;
-
-            CAmount nMasternodePayment = GetMasternodePayment(BlockReading->nHeight, block.vtx[0].GetValueOut());
+            CMasternode *mnode = mnodeman.Find(mnpayee);
+            CAmount nMasternodePayment = GetMasternodePayment(BlockReading->nHeight-1, block.vtx[0].GetValueOut(), mnode->getCollateralValue());
 
             BOOST_FOREACH(CTxOut txout, block.vtx[0].vout)
                 if(mnpayee == txout.scriptPubKey && nMasternodePayment == txout.nValue) {
@@ -625,7 +643,8 @@ bool CMasternodeBroadcast::CheckOutpoint(int& nDos)
             LogPrint("masternode", "CMasternodeBroadcast::CheckOutpoint -- Failed to find Masternode UTXO, masternode=%s\n", vin.prevout.ToStringShort());
             return false;
         }
-        if(coins.vout[vin.prevout.n].nValue != 1000 * COIN) {
+        // **** 
+        if(!mnodeman.IsValidCollateral(coins.vout[vin.prevout.n].nValue)) {
             LogPrint("masternode", "CMasternodeBroadcast::CheckOutpoint -- Masternode UTXO should have 1000 PEW, masternode=%s\n", vin.prevout.ToStringShort());
             return false;
         }
@@ -920,4 +939,9 @@ void CMasternode::FlagGovernanceItemsAsDirty()
     for(size_t i = 0; i < vecDirty.size(); ++i) {
         mnodeman.AddDirtyGovernanceObjectHash(vecDirty[i]);
     }
+}
+
+
+bool CMasternode::isValidCollateral(){
+      return mnodeman.IsValidCollateral(getCollateralValue());      
 }

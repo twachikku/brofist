@@ -85,7 +85,9 @@ struct CompareByAddr
     bool operator()(const CMasternode* t1,
                     const CMasternode* t2) const
     {
-        return t1->addr < t2->addr;
+        if(t1->addr < t2->addr) return true;
+        if(t2->addr < t1->addr) return false;
+        return t1->pubKeyMasternode < t2->pubKeyMasternode;
     }
 };
 
@@ -117,7 +119,8 @@ CMasternodeMan::CMasternodeMan()
   nLastWatchdogVoteTime(0),
   mapSeenMasternodeBroadcast(),
   mapSeenMasternodePing(),
-  nDsqCount(0)
+  nDsqCount(0),
+  Version(70209)
 {}
 
 bool CMasternodeMan::Add(CMasternode &mn)
@@ -1072,6 +1075,8 @@ void CMasternodeMan::CheckSameAddr()
                     vBan.push_back(pprevMasternode);
                     // and keep a reference to be able to ban following masternodes with the same ip
                     pverifiedMasternode = pmn;
+                }else{
+                    vBan.push_back(pmn);
                 }
             } else {
                 pverifiedMasternode = pmn->IsPoSeVerified() ? pmn : NULL;
@@ -1466,8 +1471,8 @@ bool CMasternodeMan::CheckMnbAndUpdateMasternodeList(CNode* pfrom, CMasternodeBr
             masternodeSync.AddedMasternodeList();
             // if it matches our Masternode privkey...
             if(fMasterNode && mnb.pubKeyMasternode == activeMasternode.pubKeyMasternode) {
-                mnb.nPoSeBanScore = -MASTERNODE_POSE_BAN_MAX_SCORE;
-                if(mnb.nProtocolVersion == PROTOCOL_VERSION) {
+                mnb.nPoSeBanScore = -MASTERNODE_POSE_BAN_MAX_SCORE;   
+                if(mnb.nProtocolVersion >= Version) {
                     // ... and PROTOCOL_VERSION, then we've been remotely activated ...
                     LogPrintf("CMasternodeMan::CheckMnbAndUpdateMasternodeList -- Got NEW Masternode entry: masternode=%s  sigTime=%lld  addr=%s\n",
                                 mnb.vin.prevout.ToStringShort(), mnb.sigTime, mnb.addr.ToString());
@@ -1475,7 +1480,7 @@ bool CMasternodeMan::CheckMnbAndUpdateMasternodeList(CNode* pfrom, CMasternodeBr
                 } else {
                     // ... otherwise we need to reactivate our node, do not add it to the list and do not relay
                     // but also do not ban the node we get this message from
-                    LogPrintf("CMasternodeMan::CheckMnbAndUpdateMasternodeList -- wrong PROTOCOL_VERSION, re-activate your MN: message nProtocolVersion=%d  PROTOCOL_VERSION=%d\n", mnb.nProtocolVersion, PROTOCOL_VERSION);
+                    LogPrintf("CMasternodeMan::CheckMnbAndUpdateMasternodeList -- wrong PROTOCOL_VERSION, re-activate your MN: message nProtocolVersion=%d  PROTOCOL_VERSION=%d\n", mnb.nProtocolVersion, Version);
                     return false;
                 }
             }
@@ -1645,10 +1650,14 @@ void CMasternodeMan::SetMasternodeLastPing(const CTxIn& vin, const CMasternodePi
 void CMasternodeMan::UpdatedBlockTip(const CBlockIndex *pindex)
 {
     pCurrentBlockIndex = pindex;
+    if(pCurrentBlockIndex->nHeight <= SOFTFORK1_STARTBLOCK+1000){
+      Version = 70208;
+    }
+    if(pCurrentBlockIndex->nHeight > SOFTFORK1_STARTBLOCK+1000){
+      Version = 70209;
+      if(pCurrentBlockIndex->nHeight > SOFTFORK1_STARTBLOCK+5000) CheckSameAddr();
+    }
     LogPrint("masternode", "CMasternodeMan::UpdatedBlockTip -- pCurrentBlockIndex->nHeight=%d\n", pCurrentBlockIndex->nHeight);
-
-    CheckSameAddr();
-
     if(fMasterNode) {
         // normal wallet does not need to update this every block, doing update on rpc call should be enough
         UpdateLastPaid();
@@ -1677,4 +1686,16 @@ void CMasternodeMan::NotifyMasternodeUpdates()
     LOCK(cs);
     fMasternodesAdded = false;
     fMasternodesRemoved = false;
+}
+
+bool CMasternodeMan::IsValidCollateral(CAmount amnt){    
+    unsigned int nHeight = pCurrentBlockIndex->nHeight;
+    if(amnt == 1000*COIN){
+      return nHeight< SOFTFORK1_STARTBLOCK+5000;
+    }
+    if(amnt == 1250*COIN || amnt == 2500*COIN || amnt == 5000*COIN 
+       || amnt == 10000*COIN || amnt == 20000*COIN || amnt == 50000*COIN){
+      return true;
+    }    
+    return false;
 }

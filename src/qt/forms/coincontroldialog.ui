@@ -390,10 +390,10 @@
         <item>
          <widget class="QPushButton" name="pushButtonLock1000">
           <property name="toolTip">
-           <string>To lock all items with 1000 PEW </string>
+           <string>To lock all masternode item </string>
           </property>
           <property name="text">
-           <string>lock 1000 PEW</string>
+           <string>lock Master Node items</string>
           </property>
          </widget>
         </item>
