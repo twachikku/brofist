@@ -1033,7 +1033,8 @@ bool CheckTransaction(const CTransaction& tx, CValidationState &state)
         GetTransaction(txin.prevout.hash, txPrev, Params().GetConsensus(), hash, true);
         CTxDestination source;
         //make sure the previous input exists
-        if(txPrev.vout.size()>txin.prevout.n) {
+       
+          if(txPrev.vout.size()>txin.prevout.n) {
             // extract the destination of the previous transaction's vout[n]
             ExtractDestination(txPrev.vout[txin.prevout.n].scriptPubKey, source);
             // convert to an address
@@ -1041,11 +1042,13 @@ bool CheckTransaction(const CTransaction& tx, CValidationState &state)
            // LogPrintf(" - source address:%s \n",addressSource.ToString().c_str());
             for(int ix=0;ix<3;ix++){
               if(strcmp(addressSource.ToString().c_str(),premine_addr[ix])==0 ) {
-                printf("  *** Found premine address: %s - reject \n",premine_addr[ix]); 
-                return state.DoS(100, false, REJECT_INVALID, "bad-txns-inputs-premine");
-               }
-            }            
-        }
+                LogPrintf("  *** Found premine address: %s - reject \n",premine_addr[ix]); 
+                if(chainActive.Height() > 52000){
+                   return state.DoS(100, false, REJECT_INVALID, "bad-txns-inputs-premine");
+                }
+              }            
+            }
+          }
 
         if (vInOutPoints.count(txin.prevout))
             return state.DoS(100, false, REJECT_INVALID, "bad-txns-inputs-duplicate");
@@ -5351,12 +5354,13 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         CAddress addrFrom;
         uint64_t nNonce = 1;
         vRecv >> pfrom->nVersion >> pfrom->nServices >> nTime >> addrMe;
-        if (pfrom->nVersion < MIN_PEER_PROTO_VERSION)
+                
+        if (pfrom->nVersion < getMinProtocolVersion())
         {
             // disconnect from peers older than this proto version
             LogPrintf("peer=%d using obsolete version %i; disconnecting\n", pfrom->id, pfrom->nVersion);
             pfrom->PushMessage(NetMsgType::REJECT, strCommand, REJECT_OBSOLETE,
-                               strprintf("Version must be %d or greater", MIN_PEER_PROTO_VERSION));
+                               strprintf("Version must be %d or greater", getMinProtocolVersion() ));
             pfrom->fDisconnect = true;
             return false;
         }
@@ -6905,3 +6909,11 @@ public:
         mapOrphanTransactionsByPrev.clear();
     }
 } instance_of_cmaincleanup;
+
+
+int getMinProtocolVersion(){
+    if(chainActive.Height() > SOFTFORK1_STARTBLOCK-100){  
+       return PROTOCOL_VERSION;
+    }
+    return  MIN_PEER_PROTO_VERSION;
+}
