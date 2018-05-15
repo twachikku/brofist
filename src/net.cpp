@@ -27,6 +27,7 @@
 #include "instantx.h"
 #include "masternode-sync.h"
 #include "masternodeman.h"
+#include "main.h"
 
 #ifdef WIN32
 #include <string.h>
@@ -2135,9 +2136,11 @@ void RelayTransaction(const CTransaction& tx, const CDataStream& ss)
 }
 
 void RelayInv(CInv &inv, const int minProtoVersion) {
+    int minVersion = getMinProtocolVersion();
+
     LOCK(cs_vNodes);
     BOOST_FOREACH(CNode* pnode, vNodes)
-        if(pnode->nVersion >= minProtoVersion)
+        if(pnode->nVersion >= minVersion)
             pnode->PushInventory(inv);
 }
 

@@ -2,7 +2,7 @@
     <qresource prefix="/icons">
         <file alias="bitcoin">res/icons/bitcoin.png</file>
     </qresource>
-    <qresource prefix="/icons/light">  
+    <qresource prefix="/icons/light">
         <file alias="address-book">res/icons/light/address-book.png</file>
         <file alias="quit">res/icons/light/quit.png</file>
         <file alias="send">res/icons/light/send.png</file>

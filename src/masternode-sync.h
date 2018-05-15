@@ -18,7 +18,6 @@ static const int MASTERNODE_SYNC_SPORKS          = 1;
 static const int MASTERNODE_SYNC_LIST            = 2;
 static const int MASTERNODE_SYNC_MNW             = 3;
 static const int MASTERNODE_SYNC_GOVERNANCE      = 4;
-static const int MASTERNODE_SYNC_WAITING         = 5;
 static const int MASTERNODE_SYNC_GOVOBJ          = 10;
 static const int MASTERNODE_SYNC_GOVOBJ_VOTE     = 11;
 static const int MASTERNODE_SYNC_FINISHED        = 999;
@@ -51,8 +50,7 @@ private:
     int64_t nTimeLastGovernanceItem;
     // ... or failed
     int64_t nTimeLastFailure;
-    // ... last bumped
-    int64_t nTimeLastBumped;
+
     // How many times we failed
     int nCountFailures;
 
@@ -90,9 +88,6 @@ public:
     void ProcessTick();
 
     void UpdatedBlockTip(const CBlockIndex *pindex);
-    void AcceptedBlockHeader(const CBlockIndex *pindexNew);
-    void NotifyHeaderTip(const CBlockIndex *pindexNew, bool fInitialDownload);
-    void BumpAssetLastTime(std::string strFuncName);
 };
 
 #endif
