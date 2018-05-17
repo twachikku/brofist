@@ -88,6 +88,8 @@ struct CompareByAddr
         if(t1->addr < t2->addr) return true;
         if(t2->addr < t1->addr) return false;
         return t1->pubKeyMasternode < t2->pubKeyMasternode;
+      //return t1->addr < t2->addr;
+      
     }
 };
 

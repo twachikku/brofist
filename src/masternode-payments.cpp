@@ -144,6 +144,10 @@ bool IsBlockPayeeValid(const CTransaction& txNew, int nBlockHeight, CAmount bloc
     const Consensus::Params& consensusParams = Params().GetConsensus();
 
     if(nBlockHeight < consensusParams.nSuperblockStartBlock) {
+        if(mnpayments.IsTransactionValid(txNew, nBlockHeight-1)) {
+            LogPrint("mnpayments", "IsBlockPayeeValid -- Valid masternode payment at height %d: %s", nBlockHeight, txNew.ToString());
+            return true;
+        }
         if(mnpayments.IsTransactionValid(txNew, nBlockHeight)) {
             LogPrint("mnpayments", "IsBlockPayeeValid -- Valid masternode payment at height %d: %s", nBlockHeight, txNew.ToString());
             return true;
@@ -164,7 +168,7 @@ bool IsBlockPayeeValid(const CTransaction& txNew, int nBlockHeight, CAmount bloc
         }
 
         if(sporkManager.IsSporkActive(SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT)) {
-            LogPrintf("IsBlockPayeeValid -- ERROR: Invalid masternode payment detected at height %d: %s", nBlockHeight, txNew.ToString());
+            LogPrintf("IsBlockPayeeValid -- ERROR: 1) Invalid masternode payment detected at height %d: %s", nBlockHeight, txNew.ToString());
             return false;
         }
 
@@ -200,7 +204,7 @@ bool IsBlockPayeeValid(const CTransaction& txNew, int nBlockHeight, CAmount bloc
     }
 
     if(sporkManager.IsSporkActive(SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT)) {
-        LogPrintf("IsBlockPayeeValid -- ERROR: Invalid masternode payment detected at height %d: %s", nBlockHeight, txNew.ToString());
+        LogPrintf("IsBlockPayeeValid -- ERROR: 2) Invalid masternode payment detected at height %d: %s", nBlockHeight, txNew.ToString());
         return false;
     }
 
@@ -292,7 +296,12 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int nBlockH
         // fill payee with locally calculated winner and hope for the best
         payee = GetScriptForDestination(winningNode->pubKeyCollateralAddress.GetID());
         masternodeCoin = winningNode->getCollateralValue();
+    }else{
+       CMasternode *winningNode= NULL;
+       winningNode = mnodeman.Find(payee);    
+       masternodeCoin = winningNode->getCollateralValue();   
     }
+
     // GET MASTERNODE PAYMENT VARIABLES SETUP
     CAmount masternodePayment = GetMasternodePayment(nBlockHeight, blockReward, masternodeCoin);
 
@@ -541,7 +550,7 @@ bool CMasternodeBlockPayees::GetBestPayee(CScript& payeeRet)
             nVotes = payee.GetVoteCount();
         }
     }
-
+    LogPrintf("CMasternodeBlockPayees::GetBestPayee -- maxvote: %d \n", nVotes);
     return (nVotes > -1);
 }
 
@@ -574,7 +583,7 @@ bool CMasternodeBlockPayees::IsTransactionValid(const CTransaction& txNew)
             nMaxSignatures = payee.GetVoteCount();
         }
     }
-
+    
     // if we don't have at least MNPAYMENTS_SIGNATURES_REQUIRED signatures on a payee, approve whichever is the longest chain
     if(nMaxSignatures < MNPAYMENTS_SIGNATURES_REQUIRED) return true;
     
@@ -601,9 +610,10 @@ bool CMasternodeBlockPayees::IsTransactionValid(const CTransaction& txNew)
                 strPayeesPossible += "," + address2.ToString();
             }
         }
+        //***    
     }
 
-    LogPrintf("CMasternodeBlockPayees::IsTransactionValid -- ERROR: Missing required payment, possible payees: '%s', amount: %f PEW\n", strPayeesPossible, (float)nMasternodePayment/COIN);
+    LogPrintf("CMasternodeBlockPayees::IsTransactionValid -- ERROR: Missing required payment, possible payees: '%s', amount: %f PEW, vote:%d\n", strPayeesPossible, (float)nMasternodePayment/COIN, nMaxSignatures);
     return false;
 }
 
