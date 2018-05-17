@@ -164,7 +164,7 @@ bool IsBlockPayeeValid(const CTransaction& txNew, int nBlockHeight, CAmount bloc
         }
 
         if(sporkManager.IsSporkActive(SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT)) {
-            LogPrintf("IsBlockPayeeValid -- ERROR: Invalid masternode payment detected at height %d: %s", nBlockHeight, txNew.ToString());
+            LogPrintf("IsBlockPayeeValid -- ERROR: 1) Invalid masternode payment detected at height %d: %s", nBlockHeight, txNew.ToString());
             return false;
         }
 
@@ -200,7 +200,7 @@ bool IsBlockPayeeValid(const CTransaction& txNew, int nBlockHeight, CAmount bloc
     }
 
     if(sporkManager.IsSporkActive(SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT)) {
-        LogPrintf("IsBlockPayeeValid -- ERROR: Invalid masternode payment detected at height %d: %s", nBlockHeight, txNew.ToString());
+        LogPrintf("IsBlockPayeeValid -- ERROR: 2) Invalid masternode payment detected at height %d: %s", nBlockHeight, txNew.ToString());
         return false;
     }
 
@@ -541,7 +541,7 @@ bool CMasternodeBlockPayees::GetBestPayee(CScript& payeeRet)
             nVotes = payee.GetVoteCount();
         }
     }
-
+    LogPrint("mnpayments","max vote %d \n",nVotes);
     return (nVotes > -1);
 }
 
@@ -574,7 +574,7 @@ bool CMasternodeBlockPayees::IsTransactionValid(const CTransaction& txNew)
             nMaxSignatures = payee.GetVoteCount();
         }
     }
-
+    
     // if we don't have at least MNPAYMENTS_SIGNATURES_REQUIRED signatures on a payee, approve whichever is the longest chain
     if(nMaxSignatures < MNPAYMENTS_SIGNATURES_REQUIRED) return true;
     
@@ -601,6 +601,13 @@ bool CMasternodeBlockPayees::IsTransactionValid(const CTransaction& txNew)
                 strPayeesPossible += "," + address2.ToString();
             }
         }
+        //***
+        BOOST_FOREACH(CTxOut txout, txNew.vout) {
+           if (payee.GetPayee() == txout.scriptPubKey && nMasternodePayment == txout.nValue) {
+             LogPrint("mnpayments", "CMasternodeBlockPayees::Votecount=%d max=%d -- Found required payment\n",payee.GetVoteCount(),nMaxSignatures); 
+             if(payee.GetVoteCount()>0) return true;         
+           }
+        }        
     }
 
     LogPrintf("CMasternodeBlockPayees::IsTransactionValid -- ERROR: Missing required payment, possible payees: '%s', amount: %f PEW\n", strPayeesPossible, (float)nMasternodePayment/COIN);
