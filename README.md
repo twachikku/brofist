@@ -9,7 +9,7 @@ I make this fork to look after it, and make it to be the community stable and re
 
 - Maximum Supply: 31,000,000 coins
 - Algorithm: NeoScrypt
-- Type: PoW + MasterNode
+- Type: PoW + MasterNode (Multi-Levels)
 - Coin name: BroFist Coin
 - Coin abbreviation: PEW
 - Block Time Average: 120 sec
@@ -20,22 +20,18 @@ I make this fork to look after it, and make it to be the community stable and re
 
 Tools
 -------------
+* Website: http://www.brofist.online 
+* Official Pool : http://pool.brofist.online/
 * Block Explorer : https://pew.overemo.com/
 * Bitcointalk ANN : https://bitcointalk.org/index.php?topic=3025770.80 
-* Website: http://www.brofist.online 
+
 * Exchange: 
   - Graviex - https://graviex.net/markets/pewbtc
   - BarterDEX - https://komodoplatform.com/decentralized-exchange/
     To use BarterDEX, you must set **rpcport=12454** in brofist.conf 
 
-* Discord: (Old) https://discord.gg/p2rsNEb  (New) https://discord.gg/QBTgeMZ
+* Discord: (New) https://discord.gg/QBTgeMZ
 
-Downloads
-----------------
-* [Windows 32 Wallet](https://github.com/modcrypto/brofist/releases/download/1.1/brofist32-qt.1.2.zip) (Stable)
-* [Linux Wallet](https://github.com/modcrypto/brofist/releases/download/1.1/brofishd_ubuntu.1.1.tar.gz)
-* MacOS Wallet
-* [Blockchain](https://github.com/modcrypto/brofist/releases/download/1.0/brofist_blockchain_24176.zip) 1 - 24176 blocks
 
 How to Update Your Masternode
 ------------------------
