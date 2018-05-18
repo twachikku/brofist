@@ -161,11 +161,17 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
     // start with displaying the "out of sync" warnings
     showOutOfSyncWarning(true);
     
-    ui->MessageLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
-    ui->MessageLabel->setOpenExternalLinks(true);
+    ui->MessageLabel->setVisible(!fLiteMode);
 
     // that's it for litemode
     if(fLiteMode) return;
+
+    ui->MessageLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    ui->MessageLabel->setOpenExternalLinks(true);
+
+    timerMsg = new QTimer(this);
+    connect(timerMsg, SIGNAL(timeout()), this, SLOT(updateInformation()));
+    timerMsg->start(10000);
 
     // Disable any PS UI for masternode or when autobackup is disabled or failed for whatever reason
     if(fMasterNode || nWalletBackups <= 0){
@@ -185,7 +191,7 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
 
         timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), this, SLOT(privateSendStatus()));
-        timer->start(1000);
+        timer->start(2000);
     }
 }
 
@@ -197,9 +203,11 @@ void OverviewPage::handleTransactionClicked(const QModelIndex &index)
 
 OverviewPage::~OverviewPage()
 {
+    if(!fLiteMode) disconnect(timerMsg, SIGNAL(timeout()), this, SLOT(updateInformation()));
     if(!fLiteMode && !fMasterNode) disconnect(timer, SIGNAL(timeout()), this, SLOT(privateSendStatus()));
     delete ui;
 }
+
 void OverviewPage::updateInformation(){
     int nBlocks = clientModel->getNumBlocks();
     
@@ -209,7 +217,9 @@ void OverviewPage::updateInformation(){
        txt += tr("<li>Soft Fork Start Blocks: <span style='color:#a00'> %1</span> </li>").arg(SOFTFORK1_STARTBLOCK);
     }
     txt += tr("<li>Current Blocks: <span style='color:#a00'> %1</span> </li>").arg(nBlocks); 
-    txt += tr("<li>Difficulty: <span style='color:#a00'> %1</span><br></li>").arg(GetDifficulty()); 
+    txt += tr("<li>Difficulty: <span style='color:#a00'> %1</span></li>").arg(GetDifficulty()); 
+    txt += tr("<li>Connection : <span style='color:#a00'> %1</span> </li>").arg( clientModel->getNumConnections()); 
+    txt += tr("<li>Master Nodes <span style='color:#a00'> %1</span><br> </li>").arg( clientModel->getMasternodeCountString()); 
     txt += tr("<li>Official Website: <a href='http://www.brofist.online/'>http://www.brofist.online/</a> </li>"); 
     txt += tr("<li>Github: <a href='https://github.com/modcrypto/brofist/'>https://github.com/modcrypto/brofist</a> </li>"); 
     txt += tr("</ul>");

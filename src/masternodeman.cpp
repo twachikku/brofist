@@ -1657,7 +1657,7 @@ void CMasternodeMan::UpdatedBlockTip(const CBlockIndex *pindex)
     }
     if(pCurrentBlockIndex->nHeight > SOFTFORK1_STARTBLOCK+1000){
       Version = 70209;
-      if(pCurrentBlockIndex->nHeight > SOFTFORK1_STARTBLOCK+5000) CheckSameAddr();
+      if(pCurrentBlockIndex->nHeight > SOFTFORK1_STARTBLOCK+2000) CheckSameAddr();
     }
     LogPrint("masternode", "CMasternodeMan::UpdatedBlockTip -- pCurrentBlockIndex->nHeight=%d\n", pCurrentBlockIndex->nHeight);
     if(fMasterNode) {
