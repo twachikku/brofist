@@ -9,7 +9,7 @@ I make this fork to look after it, and make it to be the community stable and re
 
 - Maximum Supply: 31,000,000 coins
 - Algorithm: NeoScrypt
-- Type: PoW + MasterNode (Multi-Levels)
+- Type: PoW + MasterNode (Multi-Levels 1250,2500,5000,10000,20000,50000 )
 - Coin name: BroFist Coin
 - Coin abbreviation: PEW
 - Block Time Average: 120 sec
@@ -23,7 +23,7 @@ Tools
 * Website: http://www.brofist.online 
 * Official Pool : http://pool.brofist.online/
 * Block Explorer : https://pew.overemo.com/
-* Bitcointalk ANN : https://bitcointalk.org/index.php?topic=3025770.80 
+* Bitcointalk ANN : https://bitcointalk.org/index.php?topic=3943730.msg37670155
 
 * Exchange: 
   - Graviex - https://graviex.net/markets/pewbtc
