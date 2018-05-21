@@ -36,8 +36,8 @@ CCriticalSection cs_mapMasternodePaymentVotes;
 bool IsBlockValueValid(const CBlock& block, int nBlockHeight, CAmount blockReward, std::string &strErrorRet)
 {
     strErrorRet = "";
-
-    bool isBlockRewardValueMet = (block.vtx[0].GetValueOut() <= blockReward+(50*COIN));
+    if(nBlockHeight%50==0 || nBlockHeight%50==49)blockReward+=50*COIN; 
+    bool isBlockRewardValueMet = (block.vtx[0].GetValueOut() <= blockReward);
     if(fDebug) LogPrintf("block.vtx[0].GetValueOut() %lld <= blockReward %lld\n", block.vtx[0].GetValueOut(), blockReward);
 
     // we are still using budgets, but we have no data about them anymore,
