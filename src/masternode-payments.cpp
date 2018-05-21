@@ -152,6 +152,10 @@ bool IsBlockPayeeValid(const CTransaction& txNew, int nBlockHeight, CAmount bloc
             LogPrint("mnpayments", "IsBlockPayeeValid -- Valid masternode payment at height %d: %s", nBlockHeight, txNew.ToString());
             return true;
         }
+        if(nBlockHeight>56000 && nBlockHeight<57000){
+            LogPrint("mnpayments", "IsBlockPayeeValid -- Invalid but only we will return true in during SF");
+            return true;  // In is SF process, 
+        } 
 
         int nOffset = nBlockHeight % consensusParams.nBudgetPaymentsCycleBlocks;
         if(nBlockHeight >= consensusParams.nBudgetPaymentsStartBlock &&
@@ -614,8 +618,8 @@ bool CMasternodeBlockPayees::IsTransactionValid(const CTransaction& txNew)
         //***    
     }
 
-    LogPrintf("CMasternodeBlockPayees::IsTransactionValid -- ERROR: Missing required payment, possible payees: '%s', amount: %f PEW, vote:%d\n", strPayeesPossible, (float)nMasternodePayment/COIN, nMaxSignatures);
-    return false;
+    LogPrintf("CMasternodeBlockPayees::IsTransactionValid -- ERROR: Missing required payment, possible payees: '%s', amount: %f PEW, vote:%d\n", strPayeesPossible, (float)nMasternodePayment/COIN, nMaxSignatures);   
+    return true;
 }
 
 std::string CMasternodeBlockPayees::GetRequiredPaymentsString()
