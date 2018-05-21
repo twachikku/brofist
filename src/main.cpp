@@ -1819,14 +1819,12 @@ CAmount GetMasternodePayment(int nPrevHeight, CAmount blockValue, CAmount master
 
 CAmount GetDevFundPayment(int nPrevHeight)
 {     
+    // Disable DevFund : It cannot be implement. (!!!No devfund)
     CAmount nPay = 0; 
     int rblock=0;
-    if (nPrevHeight>=SOFTFORK1_STARTBLOCK && nPrevHeight<=SOFTFORK1_STARTBLOCK+100000){
+    if (nPrevHeight>=SOFTFORK1_STARTBLOCK && nPrevHeight<=SOFTFORK1_STARTBLOCK+1200){
         rblock=50;    
-    } 
-    if (nPrevHeight>SOFTFORK1_STARTBLOCK+100000){
-        rblock=200;    
-    } 
+    }
     if(rblock>0 && nPrevHeight % rblock == 0){
         nPay = 50 * COIN; 
     }
@@ -2567,6 +2565,7 @@ static int64_t nTimeTotal = 0;
 
 bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pindex, CCoinsViewCache& view, bool fJustCheck)
 {
+
     const CChainParams& chainparams = Params();
     AssertLockHeld(cs_main);
 
@@ -2807,7 +2806,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     }
     int64_t nTime3 = GetTimeMicros(); nTimeConnect += nTime3 - nTime2;
     LogPrint("bench", "      - Connect %u transactions: %.2fms (%.3fms/tx, %.3fms/txin) [%.2fs]\n", (unsigned)block.vtx.size(), 0.001 * (nTime3 - nTime2), 0.001 * (nTime3 - nTime2) / block.vtx.size(), nInputs <= 1 ? 0 : 0.001 * (nTime3 - nTime2) / (nInputs-1), nTimeConnect * 0.000001);
-
+   
     // BROFIST : MODIFIED TO CHECK MASTERNODE PAYMENTS AND SUPERBLOCKS
 
     // It's possible that we simply don't have enough data and this could fail
@@ -2816,19 +2815,18 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     // the peer who sent us this block is missing some data and wasn't able
     // to recognize that block is actually invalid.
     // TODO: resync data (both ways?) and try to reprocess this block later.
-    CAmount blockReward = nFees + GetBlockSubsidy(pindex->pprev->nBits, pindex->pprev->nHeight, chainparams.GetConsensus()) + GetDevFundPayment(pindex->pprev->nHeight);
+    CAmount blockReward = nFees + GetBlockSubsidy(pindex->pprev->nBits, pindex->pprev->nHeight, chainparams.GetConsensus()) + GetDevFundPayment(pindex->nHeight);
     std::string strError = "";
     if (!IsBlockValueValid(block, pindex->nHeight, blockReward, strError)) {
         return state.DoS(0, error("ConnectBlock(PEW): %s", strError), REJECT_INVALID, "bad-cb-amount");
     }
-
+   
     if (!IsBlockPayeeValid(block.vtx[0], pindex->nHeight, blockReward)) {
         mapRejectedBlocks.insert(make_pair(block.GetHash(), GetTime()));
         return state.DoS(0, error("ConnectBlock(PEW): couldn't find masternode or superblock payments"),
                                 REJECT_INVALID, "bad-cb-payee");
-    }
+    } 
     // END BROFIST
-
     if (!control.Wait())
         return state.DoS(100, false);
     int64_t nTime4 = GetTimeMicros(); nTimeVerify += nTime4 - nTime2;
@@ -2837,6 +2835,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     if (fJustCheck)
         return true;
 
+  //  LogPrintf("ConnectBlock 3: transaction = %s \n", block.vtx[0].ToString());
     // Write undo information to disk
     if (pindex->GetUndoPos().IsNull() || !pindex->IsValid(BLOCK_VALID_SCRIPTS))
     {
@@ -2891,7 +2890,8 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
 
     int64_t nTime6 = GetTimeMicros(); nTimeCallbacks += nTime6 - nTime5;
     LogPrint("bench", "    - Callbacks: %.2fms [%.2fs]\n", 0.001 * (nTime6 - nTime5), nTimeCallbacks * 0.000001);
-
+    
+    //LogPrintf("ConnectBlock 4: transaction = %s \n", block.vtx[0].ToString());
     return true;
 }
 

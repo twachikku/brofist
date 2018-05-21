@@ -36,7 +36,7 @@ CCriticalSection cs_mapMasternodePaymentVotes;
 bool IsBlockValueValid(const CBlock& block, int nBlockHeight, CAmount blockReward, std::string &strErrorRet)
 {
     strErrorRet = "";
-    blockReward += 50*COIN;
+    blockReward += GetDevFundPayment(nBlockHeight);
     bool isBlockRewardValueMet = (block.vtx[0].GetValueOut() <= blockReward);
     if(fDebug) LogPrintf("block.vtx[0].GetValueOut() %lld <= blockReward %lld\n", block.vtx[0].GetValueOut(), blockReward);
 
@@ -137,7 +137,7 @@ bool IsBlockPayeeValid(const CTransaction& txNew, int nBlockHeight, CAmount bloc
         if(fDebug) LogPrintf("IsBlockPayeeValid -- WARNING: Client not synced, skipping block payee checks\n");
         return true;
     }
-
+       
     // we are still using budgets, but we have no data about them anymore,
     // we can only check masternode payments
 
@@ -570,6 +570,7 @@ bool CMasternodeBlockPayees::HasPayeeWithVotes(CScript payeeIn, int nVotesReq)
 
 bool CMasternodeBlockPayees::IsTransactionValid(const CTransaction& txNew)
 {
+    LogPrintf("IsTransactionValid : transaction = %s \n", txNew.ToString());
     LOCK(cs_vecPayees);
 
     int nMaxSignatures = 0;
